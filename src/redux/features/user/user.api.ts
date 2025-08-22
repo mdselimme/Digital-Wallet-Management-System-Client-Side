@@ -2,52 +2,54 @@ import { baseApi } from "@/redux/baseApi";
 
 
 const userApi = baseApi.injectEndpoints({
-    endpoints: (builder)=>({
+    endpoints: (builder) => ({
         // user register 
         userRegister: builder.mutation({
-            query:(payload)=>({
+            query: (payload) => ({
                 url: "/user/register",
-                method:"POST",
-                data:payload
+                method: "POST",
+                data: payload
             })
         }),
         // user update 
         userUpdate: builder.mutation({
-            query:({id,payload})=>({
+            query: ({ id, payload }) => ({
                 url: `/user/update/${id}`,
-                method:"PATCH",
-                data:payload
+                method: "PATCH",
+                data: payload
             })
         }),
         // user update role
         userUpdateRole: builder.mutation({
-            query:({email,payload})=>({
+            query: ({ email, payload }) => ({
                 url: `/user/role?email=${email}`,
-                method:"PATCH",
-                data:payload
+                method: "PATCH",
+                data: payload
             })
         }),
         // user update status
         userUpdateStatus: builder.mutation({
-            query:({email,payload})=>({
+            query: ({ email, payload }) => ({
                 url: `/user/status?email=${email}`,
-                method:"PATCH",
-                data:payload
+                method: "PATCH",
+                data: payload
             })
         }),
         // user update status
         userUpdateActivity: builder.mutation({
-            query:({email,payload})=>({
+            query: ({ email, payload }) => ({
                 url: `/user/activity?email=${email}`,
-                method:"PATCH",
-                data:payload
+                method: "PATCH",
+                data: payload
             })
         }),
         //get me user
         userGetMe: builder.query({
             query: () => ({
                 url: "/user/me"
-            })
+            }),
+            providesTags: ["user"],
+            transformResponse: (response) => response.data
         }),
         //get all users
         userGetAll: builder.query({
@@ -75,4 +77,4 @@ export const {
     useUserUpdateRoleMutation,
     useGetSingleUserQuery,
     useUserGetMeQuery,
-}  = userApi;
+} = userApi;

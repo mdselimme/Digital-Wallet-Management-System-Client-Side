@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -11,7 +12,14 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "../ui/button";
 import DigiPayLogo from "@/assets/images/Logo";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { useUserGetMeQuery } from "@/redux/features/user/user.api";
+import {
+  authApi,
+  useAuthLogOutUserMutation,
+} from "@/redux/features/auth/auth.api";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/hooks/redux.hooks";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -23,9 +31,29 @@ const navigationLinks = [
   { path: "/contact", route: "Contact" },
 ];
 
-export default function Component() {
+export default function Navbar() {
+  const { data: userData } = useUserGetMeQuery({});
+  const [userLogOut] = useAuthLogOutUserMutation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogOutUser = async () => {
+    try {
+      const result = await userLogOut({}).unwrap();
+      if (result?.success) {
+        navigate("/login");
+        toast.success("Logged Out Successfully.");
+        dispatch(authApi.util.resetApiState());
+      }
+    } catch (error: any) {
+      if (error) {
+        toast.error(error?.data?.message);
+      }
+    }
+  };
+
   return (
-    <header className="border-b py-3 px-4 md:px-6">
+    <header className="border-b px-4 md:px-6">
       <div className="container mx-auto">
         <div className="flex h-16 justify-between gap-4">
           {/* Left side */}
@@ -101,14 +129,24 @@ export default function Component() {
           </div>
           {/* Right side */}
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="text-sm text-[#ffffff] bg-[#C53678]"
-            >
-              <Link to={"/login"}>Sign In</Link>
-            </Button>
+            {userData?.email ? (
+              <Button
+                onClick={handleLogOutUser}
+                size={"lg"}
+                className="text-sm text-[#ffffff] bg-[#C53678]"
+              >
+                Log Out
+              </Button>
+            ) : (
+              <Button
+                asChild
+                variant="ghost"
+                size="lg"
+                className="text-sm text-[#ffffff] bg-[#C53678]"
+              >
+                <Link to={"/login"}>Sign In</Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>
