@@ -20,6 +20,7 @@ import {
 } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks/redux.hooks";
+import { ModeToggle } from "../mode.toggle";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -108,7 +109,11 @@ export default function Navbar() {
             {/* Main nav */}
             <div className="flex items-center gap-6">
               <Link to={"/"} className="text-primary hover:text-primary/90">
-                <DigiPayLogo width={120} height={50} />
+                <DigiPayLogo
+                  style={{ color: "white" }}
+                  width={120}
+                  height={50}
+                />
               </Link>
               {/* Navigation menu */}
               <NavigationMenu className="h-full *:h-full max-md:hidden">
@@ -117,7 +122,7 @@ export default function Navbar() {
                     <NavigationMenuItem key={index} className="h-full">
                       <NavigationMenuLink
                         asChild
-                        className="text-muted-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+                        className="text-secondary-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
                       >
                         <NavLink to={link.path}>{link.route}</NavLink>
                       </NavigationMenuLink>
@@ -147,6 +152,9 @@ export default function Navbar() {
                 <Link to={"/login"}>Sign In</Link>
               </Button>
             )}
+            <div>
+              <ModeToggle />
+            </div>
           </div>
         </div>
       </div>

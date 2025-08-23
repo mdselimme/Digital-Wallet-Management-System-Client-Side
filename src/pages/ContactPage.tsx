@@ -170,7 +170,7 @@ const ContactPage = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Subject</FormLabel>
+                      <FormLabel>Message</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Write your message here"
