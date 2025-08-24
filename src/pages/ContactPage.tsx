@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useContactEmailMutation } from "@/redux/features/contact/contact.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,6 +28,8 @@ const contactFormSchema = z.object({
 });
 
 const ContactPage = () => {
+  const [contactForm] = useContactEmailMutation();
+
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -48,24 +51,25 @@ const ContactPage = () => {
   };
 
   const onSubmit = async (data: z.infer<typeof contactFormSchema>) => {
-    console.log(data);
-    // const toastId = toast.loading("Log in Account ......");
+    const toastId = toast.loading("Message Sending ......");
+    const messageBody = {
+      name: data.name,
+      email: data.email,
+      subject: data.subject,
+      message: data.message,
+    };
 
-    // const userBody = {
-    //   email: data.email,
-    //   password: data.password,
-    // };
-
-    // try {
-    // //   const result = await logInAccount(userBody).unwrap();
-    //   if (result.success) {
-    //     toast.success("Logged In Successfully.", { id: toastId });
-    //   }
-    // } catch (error: any) {
-    //   if (error) {
-    //     toast.error(error?.data?.message, { id: toastId });
-    //   }
-    // }
+    try {
+      const result = await contactForm(messageBody).unwrap();
+      if (result.success) {
+        toast.success("Send Message Successfully.", { id: toastId });
+        form.reset();
+      }
+    } catch (error: any) {
+      if (error) {
+        toast.error(error?.data?.message, { id: toastId });
+      }
+    }
   };
 
   return (
