@@ -43,7 +43,7 @@ const ContactPage = () => {
   const contactData = {
     title: "Contact Us",
     description:
-      "We are available for questions, feedback, or collaboration opportunities. Let us know how we can help!",
+      "We're here to help! Whether you have questions about our mobile money transfer services, need assistance with your account, or want to share feedback, our team is always ready to listen. Reach out to us through the form below, call our support line, or visit one of our service centers. Your satisfaction and security are our top priority.",
     phone: "+8801932772523",
     email: "digi@pay.com",
     label: "digipay.com",
@@ -76,12 +76,14 @@ const ContactPage = () => {
     <section className="py-32">
       <div className="container mx-auto">
         <div className="mx-auto flex sm:max-w-full max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
-          <div className="mx-auto flex max-w-sm flex-col justify-between gap-10">
+          <div className="mx-auto flex sm:w-full md:max-w-1/2 flex-col justify-between gap-10">
             <div className="text-center lg:text-left">
               <h1 className="mb-2 text-5xl font-semibold lg:mb-1 lg:text-6xl">
                 {contactData.title}
               </h1>
-              <p className="text-muted-foreground">{contactData.description}</p>
+              <p className="text-muted-foreground p-4">
+                {contactData.description}
+              </p>
             </div>
             <div className="mx-auto w-fit lg:mx-0">
               <h3 className="mb-6 text-center text-2xl font-semibold lg:text-left">

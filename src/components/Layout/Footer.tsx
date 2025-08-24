@@ -76,10 +76,10 @@ const Footer = ({
     <section className="py-10 bg-accent">
       <div className="container mx-auto">
         <footer>
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6 text-center">
             <div className="col-span-2 mb-8 lg:mb-0">
               <div className="flex items-center gap-2 lg:justify-start">
-                <DigiPayLogo width={100} height={80} />
+                <DigiPayLogo className="mx-auto" width={100} height={80} />
               </div>
               <p className="mt-4 font-bold">{tagline}</p>
             </div>
@@ -100,14 +100,16 @@ const Footer = ({
             ))}
           </div>
           <div className="text-muted-foreground mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium md:flex-row md:items-center">
-            <p>{copyright}</p>
-            <ul className="flex gap-4">
-              {bottomLinks.map((link, linkIdx) => (
-                <li key={linkIdx} className="hover:text-primary underline">
-                  <a href={link.url}>{link.text}</a>
-                </li>
-              ))}
-            </ul>
+            <p className="text-center">{copyright}</p>
+            <div className="text-center">
+              <ul className="flex gap-4 justify-center">
+                {bottomLinks.map((link, linkIdx) => (
+                  <li key={linkIdx} className="hover:text-primary underline">
+                    <a href={link.url}>{link.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </footer>
       </div>
