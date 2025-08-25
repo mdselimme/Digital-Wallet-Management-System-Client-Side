@@ -8,7 +8,11 @@ import FeaturePage from "@/pages/FeaturePage";
 import HomePage from "@/pages/HomePage";
 import PricingPage from "@/pages/PricingPage";
 import { createBrowserRouter } from "react-router";
-
+import ProtectedRoutes from "./ProtectedRoutes";
+import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
+import AgentDashboard from "@/pages/Dashboard/Agent/AgentDashboard";
+import AdminDashboard from "@/pages/Dashboard/Admin/AdminDashboard";
+import Dashboard from "@/pages/Dashboard/Dashboard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -51,5 +55,35 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     Component: Register,
+  },
+  {
+    path: "/dashboard",
+    Component: Dashboard,
+    children: [
+      {
+        path: "user",
+        element: (
+          <ProtectedRoutes allowedRoles={["User"]}>
+            <UserDashboard />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "agent",
+        element: (
+          <ProtectedRoutes allowedRoles={["Agent"]}>
+            <AgentDashboard />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "admin",
+        element: (
+          <ProtectedRoutes allowedRoles={["Admin", "Super_Admin"]}>
+            <AdminDashboard />
+          </ProtectedRoutes>
+        ),
+      },
+    ],
   },
 ]);

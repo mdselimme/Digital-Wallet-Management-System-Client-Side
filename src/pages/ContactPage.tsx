@@ -75,7 +75,7 @@ const ContactPage = () => {
   return (
     <section className="py-32">
       <div className="container mx-auto">
-        <div className="mx-auto flex sm:max-w-full max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
+        <div className="mx-auto flex sm:max-w-full md:max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
           <div className="mx-auto flex sm:w-full md:max-w-1/2 flex-col justify-between gap-10">
             <div className="text-center lg:text-left">
               <h1 className="mb-2 text-5xl font-semibold lg:mb-1 lg:text-6xl">
@@ -85,7 +85,7 @@ const ContactPage = () => {
                 {contactData.description}
               </p>
             </div>
-            <div className="mx-auto w-fit lg:mx-0">
+            <div className="mx-auto lg:mx-0">
               <h3 className="mb-6 text-center text-2xl font-semibold lg:text-left">
                 Contact Details
               </h3>

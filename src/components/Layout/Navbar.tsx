@@ -21,6 +21,7 @@ import {
 import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks/redux.hooks";
 import { ModeToggle } from "../mode.toggle";
+import { logout } from "@/redux/slice/authSlice/authSlice";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -43,6 +44,7 @@ export default function Navbar() {
       const result = await userLogOut({}).unwrap();
       if (result?.success) {
         navigate("/login");
+        dispatch(logout());
         toast.success("Logged Out Successfully.");
         dispatch(authApi.util.resetApiState());
       }

@@ -19,6 +19,9 @@ import { Link, useNavigate } from "react-router";
 import Password from "../ui/password";
 import { useAuthLoginUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/hooks/redux.hooks";
+import { login } from "@/redux/slice/authSlice/authSlice";
+import { dashboardRoutes } from "@/router/DashboardRoute";
 
 const logInAccountSchema = z.object({
   email: z.email({ error: "Must be a valid email." }),
@@ -36,7 +39,6 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [logInAccount] = useAuthLoginUserMutation();
-  const navigate = useNavigate();
   const form = useForm<z.infer<typeof logInAccountSchema>>({
     resolver: zodResolver(logInAccountSchema),
     defaultValues: {
@@ -44,7 +46,8 @@ export function LoginForm({
       password: "",
     },
   });
-
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const onSubmit = async (data: z.infer<typeof logInAccountSchema>) => {
     const toastId = toast.loading("Log in Account ......");
 
@@ -56,8 +59,13 @@ export function LoginForm({
     try {
       const result = await logInAccount(userBody).unwrap();
       if (result.success) {
+        const role = result?.data?.user.role;
+        dispatch(login({ role }));
+        const route = dashboardRoutes.find((r) => r.roles.includes(role));
+        if (route) {
+          navigate(route.path);
+        }
         toast.success("Logged In Successfully.", { id: toastId });
-        navigate("/");
       }
     } catch (error: any) {
       if (error) {
