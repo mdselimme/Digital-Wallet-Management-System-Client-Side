@@ -57,7 +57,8 @@ const userApi = baseApi.injectEndpoints({
                 url: "/user",
                 method: "GET",
                 params
-            })
+            }),
+            transformResponse: (response) => response.data
         }),
         //get single user
         getSingleUser: builder.query({
