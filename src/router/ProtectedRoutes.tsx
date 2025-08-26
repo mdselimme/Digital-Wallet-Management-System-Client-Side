@@ -1,5 +1,4 @@
-import { useAppSelector } from "@/hooks/redux.hooks";
-import type { RootState } from "@/redux/store/store";
+import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import type React from "react";
 import { Navigate } from "react-router";
 
@@ -9,17 +8,13 @@ interface IUserProps {
 }
 
 export const ProtectedRoutes = ({ allowedRoles, children }: IUserProps) => {
-  const { isAuthenticate, role } = useAppSelector(
-    (state: RootState) => state.auth
-  );
+  const { data: userData } = useUserGetMeQuery({});
 
-  console.log(isAuthenticate, role);
-
-  if (!isAuthenticate) {
+  if (!userData) {
     return <Navigate to={"/login"} replace />;
   }
 
-  if (!role || !allowedRoles.includes(role)) {
+  if (!userData || !allowedRoles.includes(userData.role)) {
     return <Navigate to={"/unauthorized"} replace />;
   }
 

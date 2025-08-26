@@ -22,15 +22,20 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks/redux.hooks";
 import { ModeToggle } from "../mode.toggle";
 import { logout } from "@/redux/slice/authSlice/authSlice";
+import { role } from "@/utils/getSidebarItems";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { path: "/", route: "Home" },
-  { path: "/about", route: "About" },
-  { path: "/feature", route: "Feature" },
-  { path: "/pricing", route: "Pricing" },
-  { path: "/faq", route: "Faq" },
-  { path: "/contact", route: "Contact" },
+  { path: "/", label: "Home", role: "Public" },
+  { path: "/about", label: "About", role: "Public" },
+  { path: "/feature", label: "Feature", role: "Public" },
+  { path: "/pricing", label: "Pricing", role: "Public" },
+  { path: "/faq", label: "Faq", role: "Public" },
+  { path: "/contact", label: "Contact" },
+  { path: "/dashboard/admin", label: "Dashboard", role: role.Super_Admin },
+  { path: "/dashboard/admin", label: "Dashboard", role: role.Admin },
+  { path: "/dashboard/agent", label: "Dashboard", role: role.Agent },
+  { path: "/dashboard/user", label: "Dashboard", role: role.User },
 ];
 
 export default function Navbar() {
@@ -98,9 +103,16 @@ export default function Navbar() {
                     <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                       {navigationLinks.map((link, index) => (
                         <NavigationMenuItem key={index} className="w-full">
-                          <NavigationMenuLink asChild className="py-1.5">
-                            <NavLink to={link.path}>{link.route}</NavLink>
-                          </NavigationMenuLink>
+                          {!userData && link.role === "Public" && (
+                            <NavigationMenuLink asChild className="py-1.5">
+                              <NavLink to={link.path}>{link.label}</NavLink>
+                            </NavigationMenuLink>
+                          )}
+                          {link.role === userData?.role && (
+                            <NavigationMenuLink asChild className="py-1.5">
+                              <NavLink to={link.path}>{link.label}</NavLink>
+                            </NavigationMenuLink>
+                          )}
                         </NavigationMenuItem>
                       ))}
                     </NavigationMenuList>
@@ -122,12 +134,22 @@ export default function Navbar() {
                 <NavigationMenuList className="h-full gap-2">
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="h-full">
-                      <NavigationMenuLink
-                        asChild
-                        className="text-secondary-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
-                      >
-                        <NavLink to={link.path}>{link.route}</NavLink>
-                      </NavigationMenuLink>
+                      {!userData && link.role === "Public" && (
+                        <NavigationMenuLink
+                          asChild
+                          className="text-secondary-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+                        >
+                          <NavLink to={link.path}>{link.label}</NavLink>
+                        </NavigationMenuLink>
+                      )}
+                      {link.role === userData?.role && (
+                        <NavigationMenuLink
+                          asChild
+                          className="text-secondary-foreground hover:text-primary border-b-primary hover:border-b-primary data-[active]:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent data-[active]:bg-transparent!"
+                        >
+                          <NavLink to={link.path}>{link.label}</NavLink>
+                        </NavigationMenuLink>
+                      )}
                     </NavigationMenuItem>
                   ))}
                 </NavigationMenuList>

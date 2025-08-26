@@ -1,7 +1,5 @@
 import App from "@/App";
 import AboutPage from "@/pages/AboutPage";
-import Login from "@/pages/Authentication/Login";
-import Register from "@/pages/Authentication/Register";
 import ContactPage from "@/pages/ContactPage";
 import FaqPage from "@/pages/FaqPage";
 import FeaturePage from "@/pages/FeaturePage";
@@ -13,6 +11,9 @@ import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
 import AgentDashboard from "@/pages/Dashboard/Agent/AgentDashboard";
 import AdminDashboard from "@/pages/Dashboard/Admin/AdminDashboard";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import PublicOnlyRoute from "./PublicRoute";
+import Login from "@/pages/Authentication/Login";
+import Register from "@/pages/Authentication/Register";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -50,11 +51,19 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    Component: Login,
+    element: (
+      <PublicOnlyRoute>
+        <Login />
+      </PublicOnlyRoute>
+    ),
   },
   {
     path: "/register",
-    Component: Register,
+    element: (
+      <PublicOnlyRoute>
+        <Register />
+      </PublicOnlyRoute>
+    ),
   },
   {
     path: "/dashboard",
