@@ -5,7 +5,7 @@ import FaqPage from "@/pages/FaqPage";
 import FeaturePage from "@/pages/FeaturePage";
 import HomePage from "@/pages/HomePage";
 import PricingPage from "@/pages/PricingPage";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import ProtectedRoutes from "./ProtectedRoutes";
 import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
 import AgentDashboard from "@/pages/Dashboard/Agent/AgentDashboard";
@@ -68,33 +68,45 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/dashboard/user",
+    path: "/dashboard",
     Component: ProtectedRoutes(Dashboard, { allowedRoles: ["User"] }),
     children: [
       {
         index: true,
+        element: <Navigate to={"/dashboard/user"} replace />,
+      },
+      {
+        path: "user",
         Component: UserDashboard,
       },
     ],
   },
   {
-    path: "/dashboard/agent",
+    path: "/dashboard",
     Component: ProtectedRoutes(Dashboard, { allowedRoles: ["Agent"] }),
     children: [
       {
         index: true,
+        element: <Navigate to={"/dashboard/agent"} replace />,
+      },
+      {
+        path: "agent",
         Component: AgentDashboard,
       },
     ],
   },
   {
-    path: "/dashboard/admin",
+    path: "/dashboard",
     Component: ProtectedRoutes(Dashboard, {
       allowedRoles: ["Admin", "Super_Admin"],
     }),
     children: [
       {
         index: true,
+        element: <Navigate to={"/dashboard/admin"} replace />,
+      },
+      {
+        path: "admin",
         Component: AdminDashboard,
       },
       ...generateRoutes(AdminSideBarItems),

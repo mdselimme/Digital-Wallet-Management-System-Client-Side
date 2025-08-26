@@ -13,8 +13,8 @@ const userApi = baseApi.injectEndpoints({
         }),
         // user update 
         userUpdate: builder.mutation({
-            query: ({ id, payload }) => ({
-                url: `/user/update/${id}`,
+            query: (payload) => ({
+                url: `/user/update`,
                 method: "PATCH",
                 data: payload
             })
