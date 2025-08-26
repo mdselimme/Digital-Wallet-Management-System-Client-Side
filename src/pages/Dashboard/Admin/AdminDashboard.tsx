@@ -23,7 +23,10 @@ const AdminDashboard = () => {
           </h1>
           <div className="flex flex-col gap-y-3">
             <h3 className="text-lg font-normal text-white flex items-center">
-              <UserRound /> <span className="ml-2">{userData?.name}</span>
+              <UserRound />{" "}
+              <span className="ml-2">
+                {userData?.name}-({userData?.role})
+              </span>
             </h3>
             <p className="text-base font-normal text-white flex items-center">
               <SmartphoneNfc /> <span className="ml-2">{userData?.phone}</span>

@@ -31,7 +31,6 @@ export default function TableComponents() {
   });
 
   const totalPage = myTransaction?.meta?.totalPages;
-  console.log(currentPage, totalPage);
 
   const pagePrev = () => {
     if (currentPage > 1) {

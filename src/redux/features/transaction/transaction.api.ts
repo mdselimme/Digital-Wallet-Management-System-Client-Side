@@ -66,7 +66,8 @@ const authApi = baseApi.injectEndpoints({
                 url: "/transaction",
                 method: "GET",
                 params
-            })
+            }),
+            transformResponse: (response) => response?.data
         })
 
     })
@@ -74,5 +75,7 @@ const authApi = baseApi.injectEndpoints({
 
 export const {
     useSuperAdminTransferOtherMutation,
-    useGetMyTransactionQuery
+    useGetMyTransactionQuery,
+    useGetAllTransactionQuery,
+    useAgentCashInUserMutation
 } = authApi;

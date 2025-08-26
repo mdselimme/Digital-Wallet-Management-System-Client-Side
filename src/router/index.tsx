@@ -10,10 +10,12 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import UserDashboard from "@/pages/Dashboard/User/UserDashboard";
 import AgentDashboard from "@/pages/Dashboard/Agent/AgentDashboard";
 import AdminDashboard from "@/pages/Dashboard/Admin/AdminDashboard";
-import Dashboard from "@/pages/Dashboard/Dashboard";
 import PublicOnlyRoute from "./PublicRoute";
 import Login from "@/pages/Authentication/Login";
 import Register from "@/pages/Authentication/Register";
+import { generateRoutes } from "@/utils/generatesRoutes";
+import { AdminSideBarItems } from "./AdminSideBarItems";
+import Dashboard from "@/pages/Dashboard/Dashboard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -66,33 +68,36 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/dashboard",
-    Component: Dashboard,
+    path: "/dashboard/user",
+    Component: ProtectedRoutes(Dashboard, { allowedRoles: ["User"] }),
     children: [
       {
-        path: "user",
-        element: (
-          <ProtectedRoutes allowedRoles={["User"]}>
-            <UserDashboard />
-          </ProtectedRoutes>
-        ),
+        index: true,
+        Component: UserDashboard,
       },
+    ],
+  },
+  {
+    path: "/dashboard/agent",
+    Component: ProtectedRoutes(Dashboard, { allowedRoles: ["Agent"] }),
+    children: [
       {
-        path: "agent",
-        element: (
-          <ProtectedRoutes allowedRoles={["Agent"]}>
-            <AgentDashboard />
-          </ProtectedRoutes>
-        ),
+        index: true,
+        Component: AgentDashboard,
       },
+    ],
+  },
+  {
+    path: "/dashboard/admin",
+    Component: ProtectedRoutes(Dashboard, {
+      allowedRoles: ["Admin", "Super_Admin"],
+    }),
+    children: [
       {
-        path: "admin",
-        element: (
-          <ProtectedRoutes allowedRoles={["Admin", "Super_Admin"]}>
-            <AdminDashboard />
-          </ProtectedRoutes>
-        ),
+        index: true,
+        Component: AdminDashboard,
       },
+      ...generateRoutes(AdminSideBarItems),
     ],
   },
 ]);

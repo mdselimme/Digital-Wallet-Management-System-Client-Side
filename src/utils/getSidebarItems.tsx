@@ -1,3 +1,5 @@
+import { AdminSideBarItems } from "@/router/AdminSideBarItems";
+
 export const role = {
   Super_Admin: "Super_Admin",
   Admin: "Admin",
@@ -7,13 +9,17 @@ export const role = {
 
 export type TRole = "Super_Admin" | "Admin" | "User" | "Agent";
 
-// export const getSideBarItems = (userRole: TRole) => {
-//   switch (userRole) {
-//     case role.Super_Admin:
-//      return break [...];
-//     case role.Admin:
-//       return [...]
-//     default:
-//       break;
-//   }
-// };
+export const getSideBarRoleItems = (userRole: TRole) => {
+  switch (userRole) {
+    case role.Super_Admin:
+      return [...AdminSideBarItems];
+    case role.Admin:
+      return [...AdminSideBarItems];
+    // case role.User:
+    //   return [...UserSidebarItems];
+    // case role.Agent:
+    //   return [...UserSidebarItems];
+    default:
+      return [];
+  }
+};
