@@ -23,7 +23,6 @@ import {
 } from "@/redux/features/user/user.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -52,9 +51,8 @@ const updateProfileSchema = z.object({
 });
 
 export default function UpdateProfile() {
-  const navigate = useNavigate();
   const [updateUser] = useUserUpdateMutation();
-  const { data: userData } = useUserGetMeQuery({});
+  const { data: userData, refetch } = useUserGetMeQuery({});
   const form = useForm<z.infer<typeof updateProfileSchema>>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
@@ -77,6 +75,7 @@ export default function UpdateProfile() {
     try {
       const result = await updateUser(userBody).unwrap();
       if (result.success) {
+        refetch();
         toast.success("Profile Updated Successfully.", { id: toastId });
       }
     } catch (error: any) {
@@ -87,7 +86,7 @@ export default function UpdateProfile() {
     }
   };
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full max-w-lg mx-auto mt-10">
       <CardHeader>
         <CardTitle className="text-center">Update Profile Data</CardTitle>
       </CardHeader>

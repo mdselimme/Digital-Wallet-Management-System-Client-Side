@@ -38,7 +38,7 @@ const AdminDashboard = () => {
         </div>
         <div className="bg-[rgba(11,121,73,061)] p-5 md:col-span-2 md:p-10 rounded-4xl">
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
               <BanknoteArrowDown className="mx-auto mb-2" size={70} />
               <h1 className="text-lg font-semibold">Add Money Self Account</h1>
