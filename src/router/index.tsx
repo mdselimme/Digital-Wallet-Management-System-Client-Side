@@ -16,6 +16,8 @@ import Register from "@/pages/Authentication/Register";
 import { generateRoutes } from "@/utils/generatesRoutes";
 import { AdminSideBarItems } from "./AdminSideBarItems";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import { UserSideBarItems } from "./UserSideBarItems";
+import { AgentSideBarItems } from "./AgentSideBarItems";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -79,20 +81,7 @@ export const router = createBrowserRouter([
         path: "user",
         Component: UserDashboard,
       },
-    ],
-  },
-  {
-    path: "/dashboard",
-    Component: ProtectedRoutes(Dashboard, { allowedRoles: ["Agent"] }),
-    children: [
-      {
-        index: true,
-        element: <Navigate to={"/dashboard/agent"} replace />,
-      },
-      {
-        path: "agent",
-        Component: AgentDashboard,
-      },
+      ...generateRoutes(UserSideBarItems),
     ],
   },
   {
@@ -110,6 +99,23 @@ export const router = createBrowserRouter([
         Component: AdminDashboard,
       },
       ...generateRoutes(AdminSideBarItems),
+    ],
+  },
+  {
+    path: "/dashboard",
+    Component: ProtectedRoutes(Dashboard, {
+      allowedRoles: ["Agent"],
+    }),
+    children: [
+      {
+        index: true,
+        element: <Navigate to={"/dashboard/agent"} replace />,
+      },
+      {
+        path: "agent",
+        Component: AgentDashboard,
+      },
+      ...generateRoutes(AgentSideBarItems),
     ],
   },
 ]);

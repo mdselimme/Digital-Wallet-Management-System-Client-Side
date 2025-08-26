@@ -16,12 +16,12 @@ export const AdminSideBarItems = [
       },
       {
         title: "Update Admin Profile",
-        url: "update-profile",
+        url: "/dashboard/admin/update-profile",
         component: UpdateProfile,
       },
       {
         title: "Update Profile Password",
-        url: "update-password",
+        url: "/dashboard/admin/update-password",
         component: UpdatePassword,
       },
     ],

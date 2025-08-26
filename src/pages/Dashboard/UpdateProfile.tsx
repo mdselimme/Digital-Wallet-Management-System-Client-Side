@@ -50,7 +50,7 @@ const updateProfileSchema = z.object({
     }),
 });
 
-export default function UpdateProfile() {
+const UpdateProfile = () => {
   const [updateUser] = useUserUpdateMutation();
   const { data: userData, refetch } = useUserGetMeQuery({});
   const form = useForm<z.infer<typeof updateProfileSchema>>({
@@ -158,4 +158,6 @@ export default function UpdateProfile() {
       <CardFooter className="flex-col gap-2"></CardFooter>
     </Card>
   );
-}
+};
+
+export default UpdateProfile;

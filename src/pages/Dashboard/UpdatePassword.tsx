@@ -39,7 +39,7 @@ const updatePasswordSchema = z.object({
     }),
 });
 
-export default function UpdatePassword() {
+const UpdatePassword = () => {
   const [resetPassword] = useAuthPasswordResetMutation();
   const form = useForm<z.infer<typeof updatePasswordSchema>>({
     resolver: zodResolver(updatePasswordSchema),
@@ -112,4 +112,5 @@ export default function UpdatePassword() {
       <CardFooter className="flex-col gap-2"></CardFooter>
     </Card>
   );
-}
+};
+export default UpdatePassword;

@@ -1,4 +1,6 @@
 import { AdminSideBarItems } from "@/router/AdminSideBarItems";
+import { AgentSideBarItems } from "@/router/AgentSideBarItems";
+import { UserSideBarItems } from "@/router/UserSideBarItems";
 
 export const role = {
   Super_Admin: "Super_Admin",
@@ -15,10 +17,10 @@ export const getSideBarRoleItems = (userRole: TRole) => {
       return [...AdminSideBarItems];
     case role.Admin:
       return [...AdminSideBarItems];
-    // case role.User:
-    //   return [...UserSidebarItems];
-    // case role.Agent:
-    //   return [...UserSidebarItems];
+    case role.User:
+      return [...UserSideBarItems];
+    case role.Agent:
+      return [...AgentSideBarItems];
     default:
       return [];
   }
