@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useUserUpdateRoleMutation } from "@/redux/features/user/user.api";
+import {
+  useUserGetMeQuery,
+  useUserUpdateRoleMutation,
+} from "@/redux/features/user/user.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,13 +24,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 const updatePasswordSchema = z.object({
   email: z.email({ error: "Give email format here." }),
+  role: z.enum(["User", "Admin", "Agent"], {
+    error: "Value must be from these (User | Admin | Agent)",
+  }),
 });
 
 const MakeAdmin = () => {
   const [updateUserRole] = useUserUpdateRoleMutation();
-
+  const { data: userData } = useUserGetMeQuery({});
   const form = useForm<z.infer<typeof updatePasswordSchema>>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
@@ -72,6 +85,33 @@ const MakeAdmin = () => {
                   <FormControl>
                     <Input {...field} placeholder="write email here" />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="flex flex-col flex-1">
+                  <FormLabel>Account Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="w-full">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Account Role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="User">User</SelectItem>
+                      <SelectItem value="Agent">Agent</SelectItem>
+                      {userData?.role !== "Super_Admin" || (
+                        <SelectItem value="Admin">Admin</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
