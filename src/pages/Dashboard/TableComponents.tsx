@@ -72,7 +72,9 @@ export default function TableComponents() {
                     : item?.to.email}{" "}
                 </TableCell>
                 <TableCell>
-                  {userData?.role === "Agent" ? item?.commission : item?.fee}
+                  {userData?.role === "Agent"
+                    ? item?.commission.toFixed(2)
+                    : item?.fee.toFixed(2)}
                 </TableCell>
                 <TableCell>{item?.type}</TableCell>
                 <TableCell className="text-right">{item?.amount}</TableCell>

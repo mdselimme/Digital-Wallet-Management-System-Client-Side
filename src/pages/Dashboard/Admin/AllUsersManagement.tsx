@@ -73,8 +73,24 @@ const AllUsersManagement = () => {
                     <TableCell>{item?.name}</TableCell>
                     <TableCell>{item?.email}</TableCell>
                     <TableCell>{item?.phone}</TableCell>
-                    <TableCell>{item?.userStatus}</TableCell>
-                    <TableCell>{item?.isActive}</TableCell>
+                    <TableCell>
+                      {item?.userStatus === "Suspend" ? (
+                        <span className="text-red-700 font-bold">
+                          {item?.userStatus}
+                        </span>
+                      ) : (
+                        item?.userStatus
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {item?.isActive === "Blocked" ? (
+                        <span className="text-red-700 font-bold">
+                          {item?.isActive}
+                        </span>
+                      ) : (
+                        item?.isActive
+                      )}
+                    </TableCell>
                     <TableCell className="text-green-800 font-bold">
                       {item?.isVerified ? "Verified" : "Not Verified"}
                     </TableCell>

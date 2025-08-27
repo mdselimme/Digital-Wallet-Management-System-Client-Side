@@ -25,15 +25,17 @@ const userApi = baseApi.injectEndpoints({
                 url: `/user/role?email=${body.email}`,
                 method: "PATCH",
                 data: { role: body.role }
-            })
+            }),
+            invalidatesTags: ["user"]
         }),
         // user update status
         userUpdateStatus: builder.mutation({
-            query: ({ email, payload }) => ({
-                url: `/user/status?email=${email}`,
+            query: (body) => ({
+                url: `/user/status?email=${body.email}`,
                 method: "PATCH",
-                data: payload
-            })
+                data: { userStatus: body.userStatus }
+            }),
+            invalidatesTags: ["user"]
         }),
         // user update status
         userUpdateActivity: builder.mutation({
@@ -58,7 +60,8 @@ const userApi = baseApi.injectEndpoints({
                 method: "GET",
                 params
             }),
-            transformResponse: (response) => response.data
+            transformResponse: (response) => response.data,
+            providesTags: ["user"]
         }),
         //get single user
         getSingleUser: builder.query({

@@ -74,8 +74,8 @@ const AllTransaction = () => {
                     <TableCell className="font-medium">{item._id}</TableCell>
                     <TableCell>{item?.send.email}</TableCell>
                     <TableCell>{item?.to.email}</TableCell>
-                    <TableCell>{item?.fee}</TableCell>
-                    <TableCell>{item?.commission}</TableCell>
+                    <TableCell>{item?.fee.toFixed(2)}</TableCell>
+                    <TableCell>{item?.commission.toFixed(2)}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell className="text-right">{item?.amount}</TableCell>
                   </TableRow>

@@ -1,6 +1,7 @@
 import AllTransaction from "@/pages/Dashboard/Admin/AllTransaction";
 import AllUsersManagement from "@/pages/Dashboard/Admin/AllUsersManagement";
 import MakeAdmin from "@/pages/Dashboard/Admin/MakeAdmin";
+import UserStatusChange from "@/pages/Dashboard/Admin/UserStatusChange";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import UpdatePassword from "@/pages/Dashboard/UpdatePassword";
 import UpdateProfile from "@/pages/Dashboard/UpdateProfile";
@@ -43,6 +44,11 @@ export const AdminSideBarItems = [
         title: "Change Role",
         url: "role-change",
         component: MakeAdmin,
+      },
+      {
+        title: "User Status",
+        url: "change-status",
+        component: UserStatusChange,
       },
     ],
   },
