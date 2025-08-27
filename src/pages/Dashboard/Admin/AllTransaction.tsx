@@ -71,8 +71,8 @@ const AllTransaction = () => {
                   <TableRow key={item._id}>
                     <TableCell className="font-medium">{idx + 1}</TableCell>
                     <TableCell className="font-medium">{item._id}</TableCell>
-                    <TableCell>{item?.to.email}</TableCell>
                     <TableCell>{item?.send.email}</TableCell>
+                    <TableCell>{item?.to.email}</TableCell>
                     <TableCell>{item?.fee}</TableCell>
                     <TableCell>{item?.commission}</TableCell>
                     <TableCell>{item?.type}</TableCell>

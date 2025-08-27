@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
-import {
-  BanknoteArrowDown,
-  BanknoteArrowUp,
-  Mail,
-  SmartphoneNfc,
-  UserRound,
-} from "lucide-react";
+import { BanknoteArrowUp, Mail, SmartphoneNfc, UserRound } from "lucide-react";
 import TableComponents from "../TableComponents";
 import {
   Dialog,
@@ -32,11 +26,9 @@ import {
 } from "@/components/ui/form";
 import Password from "@/components/ui/password";
 import { toast } from "sonner";
-import {
-  useUserCashOutAgentMutation,
-  useUserSendMoneyUserMutation,
-} from "@/redux/features/transaction/transaction.api";
+import { useUserCashOutAgentMutation } from "@/redux/features/transaction/transaction.api";
 import { useState } from "react";
+import SendMoneyUser from "./SendMoneyUser";
 
 const userMoneySentSchema = z.object({
   receiverEmail: z.email({ error: "Must be a valid email." }),
@@ -56,7 +48,6 @@ const UserDashboard = () => {
   const { data: userData } = useUserGetMeQuery({});
   const [open, setOpen] = useState(false);
 
-  const [sendMoneyUser] = useUserSendMoneyUserMutation();
   const [cashOutMoneyAgent] = useUserCashOutAgentMutation();
 
   const form = useForm<z.infer<typeof userMoneySentSchema>>({
@@ -68,32 +59,7 @@ const UserDashboard = () => {
     },
   });
 
-  const senderFormSubmit = async (
-    data: z.infer<typeof userMoneySentSchema>
-  ) => {
-    console.log(data);
-    const toastId = toast.loading("Money is Sending ......");
-
-    const sendMoneyBody = {
-      receiverEmail: data.receiverEmail,
-      senderPassword: data.senderPassword,
-      amount: data.amount,
-    };
-
-    try {
-      const result = await sendMoneyUser(sendMoneyBody).unwrap();
-      console.log(result);
-      if (result.success) {
-        setOpen(false);
-        toast.success("Send money successfully..", { id: toastId });
-      }
-    } catch (error: any) {
-      if (error) {
-        toast.error(error?.data?.message, { id: toastId });
-      }
-    }
-  };
-
+  // Cash Out Form
   const cashOutFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
@@ -110,6 +76,7 @@ const UserDashboard = () => {
       const result = await cashOutMoneyAgent(cashOutBody).unwrap();
       if (result.success) {
         setOpen(false);
+        form.reset();
         toast.success("Cash Out successfully..", { id: toastId });
       }
     } catch (error: any) {
@@ -127,7 +94,7 @@ const UserDashboard = () => {
             Current Balance
           </h1>
           <h1 className="text-3xl font-bold text-white mb-4">
-            <span>&#2547;</span> {userData?.walletId?.balance}
+            <span>&#2547;</span> {userData?.walletId?.balance.toFixed(2)}
           </h1>
           <div className="flex flex-col gap-y-3">
             <h3 className="text-lg font-normal text-white flex items-center">
@@ -148,85 +115,7 @@ const UserDashboard = () => {
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
           <div className="grid grid-cols-2 gap-10">
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger className="w-full">
-                  <BanknoteArrowDown className="mx-auto mb-2" size={70} />
-                  <h1 className="text-lg font-semibold w-full">Send Money</h1>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Send Money</DialogTitle>
-                  </DialogHeader>
-                  <Form {...form}>
-                    <form
-                      onSubmit={form.handleSubmit(senderFormSubmit)}
-                      className="space-y-8"
-                      id="send-money"
-                    >
-                      <FormField
-                        control={form.control}
-                        name="receiverEmail"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Receiver Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="email"
-                                placeholder="write receiver email"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="amount"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Amount</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="amount"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="senderPassword"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Your Password</FormLabel>
-                            <FormControl>
-                              <Password {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </form>
-                  </Form>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogClose>
-
-                    <div className="text-end">
-                      <Button form="send-money" type="submit">
-                        Send Money
-                      </Button>
-                    </div>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <SendMoneyUser />
             </div>
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
               <Dialog open={open} onOpenChange={setOpen}>
