@@ -19,6 +19,13 @@ import z from "zod";
 const contactFormSchema = z.object({
   name: z.string().min(3, { error: "Enter your name min 3 character length" }),
   email: z.email({ error: "Must be a valid email." }),
+  phone: z
+    .string()
+    .length(11, { message: "Phone number must be exactly 11 digits" })
+    .regex(/^01\d{9}$/, {
+      message:
+        "Invalid Bangladeshi phone number. It must start with '01' and be exactly 11 digits long.",
+    }),
   subject: z
     .string()
     .min(10, { error: "write your subject min 10 character." }),
@@ -35,6 +42,7 @@ const ContactPage = () => {
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       subject: "",
       message: "",
     },
@@ -55,6 +63,7 @@ const ContactPage = () => {
     const messageBody = {
       name: data.name,
       email: data.email,
+      phone: data.phone,
       subject: data.subject,
       message: data.message,
     };
@@ -156,6 +165,23 @@ const ContactPage = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Phone</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="write your number"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
@@ -163,7 +189,7 @@ const ContactPage = () => {
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="write your email"
+                          placeholder="write your subject"
                           {...field}
                         />
                       </FormControl>

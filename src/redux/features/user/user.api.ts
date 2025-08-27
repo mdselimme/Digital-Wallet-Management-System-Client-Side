@@ -39,11 +39,12 @@ const userApi = baseApi.injectEndpoints({
         }),
         // user update status
         userUpdateActivity: builder.mutation({
-            query: ({ email, payload }) => ({
-                url: `/user/activity?email=${email}`,
+            query: (body) => ({
+                url: `/user/activity?email=${body.email}`,
                 method: "PATCH",
-                data: payload
-            })
+                data: { isActive: body.isActive }
+            }),
+            invalidatesTags: ["user"]
         }),
         //get me user
         userGetMe: builder.query({

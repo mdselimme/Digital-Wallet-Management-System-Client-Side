@@ -83,7 +83,8 @@ const AllUsersManagement = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {item?.isActive === "Blocked" ? (
+                      {item?.isActive === "Blocked" ||
+                      item?.isActive === "Deleted" ? (
                         <span className="text-red-700 font-bold">
                           {item?.isActive}
                         </span>

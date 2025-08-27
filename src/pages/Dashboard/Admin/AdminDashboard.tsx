@@ -112,7 +112,11 @@ const AdminDashboard = () => {
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
-              <AddMoneySelfAccount />
+              {userData?.role === "Super_Admin" ? (
+                <AddMoneySelfAccount />
+              ) : (
+                <h1 className="text-2xl font-bold">Feature Coming Soon</h1>
+              )}
             </div>
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
               <Dialog open={open} onOpenChange={setOpen}>
