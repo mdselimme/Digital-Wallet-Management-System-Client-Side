@@ -61,7 +61,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b px-4 md:px-6">
+    <header className="border-b px-4 md:px-6 py-5 sticky top-0">
       <div className="container mx-auto">
         <div className="flex h-16 justify-between gap-4">
           {/* Left side */}

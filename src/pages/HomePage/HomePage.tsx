@@ -1,3 +1,4 @@
+import CallToAction from "./CallToAction";
 import CustomerSection from "./CusotmerSection";
 import HeroSection from "./HeroSection";
 
@@ -6,6 +7,7 @@ const HomePage = () => {
     <div>
       <HeroSection />
       <CustomerSection />
+      <CallToAction />
     </div>
   );
 };
