@@ -3,7 +3,7 @@ import AboutPage from "@/pages/AboutPage";
 import ContactPage from "@/pages/ContactPage";
 import FaqPage from "@/pages/FaqPage";
 import FeaturePage from "@/pages/FeaturePage";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/pages/HomePage/HomePage";
 import PricingPage from "@/pages/PricingPage";
 import { createBrowserRouter, Navigate } from "react-router";
 import ProtectedRoutes from "./ProtectedRoutes";

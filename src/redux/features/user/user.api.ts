@@ -21,10 +21,10 @@ const userApi = baseApi.injectEndpoints({
         }),
         // user update role
         userUpdateRole: builder.mutation({
-            query: ({ email, payload }) => ({
-                url: `/user/role?email=${email}`,
+            query: (body) => ({
+                url: `/user/role?email=${body.email}`,
                 method: "PATCH",
-                data: payload
+                data: { role: body.role }
             })
         }),
         // user update status

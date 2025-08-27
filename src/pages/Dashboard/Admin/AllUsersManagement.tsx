@@ -30,8 +30,6 @@ const AllUsersManagement = () => {
     limit,
   });
 
-  console.log(allUsers);
-
   const totalPage = allUsers?.meta?.totalPages;
 
   const pagePrev = () => {

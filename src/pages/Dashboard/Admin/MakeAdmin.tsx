@@ -40,6 +40,7 @@ const MakeAdmin = () => {
     const toastId = toast.loading("Role Updating ......");
 
     const emailBody = {
+      email: data.email,
       role: "Admin",
     };
     try {
@@ -57,7 +58,7 @@ const MakeAdmin = () => {
   return (
     <Card className="w-full max-w-lg mx-auto mt-10">
       <CardHeader>
-        <CardTitle className="text-center">Change Password</CardTitle>
+        <CardTitle className="text-center">Change User Role</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

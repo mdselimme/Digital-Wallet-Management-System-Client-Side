@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Password from "../ui/password";
 import {
   Select,
@@ -59,7 +59,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [createAccount] = useUserRegisterMutation();
-
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof registerAccountSchema>>({
     resolver: zodResolver(registerAccountSchema),
     defaultValues: {
@@ -83,6 +83,7 @@ export function RegisterForm({
     try {
       const result = await createAccount(userBody).unwrap();
       if (result.success) {
+        navigate("/login");
         toast.success("Account Registered Successfully.", { id: toastId });
       }
     } catch (error: any) {
