@@ -83,4 +83,5 @@ export const {
   useAgentCashInUserMutation,
   useUserSendMoneyUserMutation,
   useUserCashOutAgentMutation,
+  useAgentB2BAgentMutation
 } = authApi;

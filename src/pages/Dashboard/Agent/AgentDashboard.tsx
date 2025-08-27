@@ -1,12 +1,8 @@
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
-import {
-  BanknoteArrowDown,
-  BanknoteArrowUp,
-  Mail,
-  SmartphoneNfc,
-  UserRound,
-} from "lucide-react";
+import { Mail, SmartphoneNfc, UserRound } from "lucide-react";
 import TableComponents from "../TableComponents";
+import AgentCashIn from "./AgentCashIn";
+import B2BTransaction from "./B2BTransfer";
 
 const AgentDashboard = () => {
   const { data: userData } = useUserGetMeQuery({});
@@ -40,12 +36,10 @@ const AgentDashboard = () => {
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
           <div className="grid grid-cols-2 gap-10">
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
-              <BanknoteArrowDown className="mx-auto mb-2" size={70} />
-              <h1 className="text-lg font-semibold">Cash In</h1>
+              <AgentCashIn />
             </div>
             <div className="bg-[#EBE7FF] rounded-xl p-4 text-center">
-              <BanknoteArrowUp className="mx-auto mb-2" size={70} />
-              <h1 className="text-lg font-semibold">B 2 B</h1>
+              <B2BTransaction />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BanknoteArrowDown } from "lucide-react";
+import { BanknoteArrowUp } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useAgentCashInUserMutation } from "@/redux/features/transaction/transaction.api";
+import { useAgentB2BAgentMutation } from "@/redux/features/transaction/transaction.api";
 import z from "zod";
 import { toast } from "sonner";
 import Password from "@/components/ui/password";
@@ -41,10 +41,10 @@ const userMoneySentSchema = z.object({
     .min(1, { error: "Must be greater than 0." }),
 });
 
-const AgentCashIn = () => {
+const B2BTransaction = () => {
   const [open, setOpen] = useState(false);
 
-  const [cashInAgent] = useAgentCashInUserMutation();
+  const [b2bTransaction] = useAgentB2BAgentMutation();
 
   const form = useForm<z.infer<typeof userMoneySentSchema>>({
     resolver: zodResolver(userMoneySentSchema) as any,
@@ -59,20 +59,20 @@ const AgentCashIn = () => {
     data: z.infer<typeof userMoneySentSchema>
   ) => {
     console.log(data);
-    const toastId = toast.loading("Cash In Processing ......");
+    const toastId = toast.loading("b2b Processing ......");
 
-    const cashInBody = {
+    const b2bBody = {
       receiverEmail: data.receiverEmail,
       senderPassword: data.senderPassword,
       amount: data.amount,
     };
 
     try {
-      const result = await cashInAgent(cashInBody).unwrap();
+      const result = await b2bTransaction(b2bBody).unwrap();
       if (result.success) {
         setOpen(false);
         form.reset();
-        toast.success("Cash In successfully..", { id: toastId });
+        toast.success("B2b transaction successful..", { id: toastId });
       }
     } catch (error: any) {
       if (error) {
@@ -84,12 +84,12 @@ const AgentCashIn = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="w-full">
-        <BanknoteArrowDown className="mx-auto mb-2" size={70} />
-        <h1 className="text-lg font-semibold w-full">Cash In</h1>
+        <BanknoteArrowUp className="mx-auto mb-2" size={70} />
+        <h1 className="text-lg font-semibold">B 2 B</h1>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Cash In</DialogTitle>
+          <DialogTitle>B2B Transaction</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -102,11 +102,11 @@ const AgentCashIn = () => {
               name="receiverEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Receiver Email</FormLabel>
+                  <FormLabel>Agent Email</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="write receiver email"
+                      placeholder="write agent email"
                       {...field}
                     />
                   </FormControl>
@@ -151,7 +151,7 @@ const AgentCashIn = () => {
 
           <div className="text-end">
             <Button form="send-money" type="submit">
-              Cash In
+              B2B Add
             </Button>
           </div>
         </DialogFooter>
@@ -160,4 +160,4 @@ const AgentCashIn = () => {
   );
 };
 
-export default AgentCashIn;
+export default B2BTransaction;

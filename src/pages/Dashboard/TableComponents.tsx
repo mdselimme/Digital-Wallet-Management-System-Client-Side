@@ -54,7 +54,9 @@ export default function TableComponents() {
               <TableHead>Serial</TableHead>
               <TableHead>Trans Id</TableHead>
               <TableHead>To/From</TableHead>
-              <TableHead>Fee/Commission</TableHead>
+              <TableHead>
+                {userData?.role === "Agent" ? "Commission" : "Fee/Commission"}
+              </TableHead>
               <TableHead>Type</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
@@ -70,7 +72,7 @@ export default function TableComponents() {
                     : item?.to.email}{" "}
                 </TableCell>
                 <TableCell>
-                  {userData?.role === "Admin" ? item?.commission : item?.fee}
+                  {userData?.role === "Agent" ? item?.commission : item?.fee}
                 </TableCell>
                 <TableCell>{item?.type}</TableCell>
                 <TableCell className="text-right">{item?.amount}</TableCell>
