@@ -17,6 +17,7 @@ export default function Password({ ...field }) {
           id={id}
           className="pe-9"
           placeholder="Password"
+          autoComplete="current-password"
           type={isVisible ? "text" : "password"}
           {...field}
         />
