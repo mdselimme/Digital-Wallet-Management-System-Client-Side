@@ -2,14 +2,15 @@ import { baseApi } from "@/redux/baseApi";
 
 
 const authApi = baseApi.injectEndpoints({
-    endpoints: (builder)=>({
+    endpoints: (builder) => ({
         // user register 
         addMoneyToSuper: builder.mutation({
-            query:(payload)=>({
+            query: (payload) => ({
                 url: "/wallet/add/super",
-                method:"PATCH",
-                data:payload
-            })
+                method: "PATCH",
+                data: payload
+            }),
+            invalidatesTags: ["user", "transaction"]
         }),
         //get me user
         getMyWallet: builder.query({
@@ -27,7 +28,7 @@ const authApi = baseApi.injectEndpoints({
         getAllWallet: builder.query({
             query: (params) => ({
                 url: "/wallet",
-                method:"GET",
+                method: "GET",
                 params
             })
         })
@@ -39,4 +40,4 @@ export const {
     useGetSingleWalletQuery,
     useGetAllWalletQuery,
     useGetMyWalletQuery
-}  = authApi;
+} = authApi;

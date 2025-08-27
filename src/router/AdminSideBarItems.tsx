@@ -40,8 +40,8 @@ export const AdminSideBarItems = [
         component: AllTransaction,
       },
       {
-        title: "Make Admin",
-        url: "make-admin",
+        title: "Change Role",
+        url: "role-change",
         component: MakeAdmin,
       },
     ],

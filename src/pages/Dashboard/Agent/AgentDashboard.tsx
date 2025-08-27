@@ -19,7 +19,7 @@ const AgentDashboard = () => {
             Current Balance
           </h1>
           <h1 className="text-3xl font-bold text-white mb-4">
-            <span>&#2547;</span> {userData?.walletId?.balance}
+            <span>&#2547;</span> {userData?.walletId?.balance.toFixed(2)}
           </h1>
           <div className="flex flex-col gap-y-3">
             <h3 className="text-lg font-normal text-white flex items-center">

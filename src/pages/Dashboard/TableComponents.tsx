@@ -17,13 +17,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetMyTransactionQuery } from "@/redux/features/transaction/transaction.api";
+import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import { useState } from "react";
 
 export default function TableComponents() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
   const sort = "desc";
-
+  const { data: userData } = useUserGetMeQuery({});
   const { data: myTransaction } = useGetMyTransactionQuery({
     page: currentPage,
     limit,
@@ -52,8 +53,8 @@ export default function TableComponents() {
             <TableRow className="hover:bg-transparent">
               <TableHead>Serial</TableHead>
               <TableHead>Trans Id</TableHead>
-              <TableHead>To</TableHead>
-              <TableHead>Fee</TableHead>
+              <TableHead>To/From</TableHead>
+              <TableHead>Fee/Commission</TableHead>
               <TableHead>Type</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
@@ -63,8 +64,14 @@ export default function TableComponents() {
               <TableRow key={item._id}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
                 <TableCell className="font-medium">{item._id}</TableCell>
-                <TableCell>{item?.to.email}</TableCell>
-                <TableCell>{item?.fee}</TableCell>
+                <TableCell>
+                  {item?.to.email === userData?.email
+                    ? item?.send?.email
+                    : item?.to.email}{" "}
+                </TableCell>
+                <TableCell>
+                  {userData?.role === "Admin" ? item?.commission : item?.fee}
+                </TableCell>
                 <TableCell>{item?.type}</TableCell>
                 <TableCell className="text-right">{item?.amount}</TableCell>
               </TableRow>
