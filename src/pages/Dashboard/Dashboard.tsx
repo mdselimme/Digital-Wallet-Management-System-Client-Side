@@ -13,7 +13,9 @@ export default function Dashboard() {
       <SidebarInset>
         <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
-          <h1 className="font-bold text-2xl">Account Management Dashboard</h1>
+          <h1 className="font-bold text-sm md:text-2xl">
+            Account Management Dashboard
+          </h1>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           <Outlet />

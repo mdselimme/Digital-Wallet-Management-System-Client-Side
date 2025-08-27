@@ -47,7 +47,8 @@ const AllUsersManagement = () => {
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
       <h1 className="text-3xl font-bold text-accent-foreground mb-5">
-        All Users
+        All Users{" "}
+        <sup className="text-green-600">({allUsers?.meta?.total})</sup>
       </h1>
       <div>
         <div className="w-full">

@@ -54,7 +54,7 @@ const MakeAdmin = () => {
 
     const emailBody = {
       email: data.email,
-      role: "Admin",
+      role: data.role,
     };
     try {
       const result = await updateUserRole(emailBody).unwrap();

@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { logout } from "@/redux/slice/authSlice/authSlice";
 import { getSideBarRoleItems } from "@/utils/getSidebarItems";
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
+import { LogOut } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useUserGetMeQuery({});
@@ -81,7 +82,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           ))}
           <div>
             <Button onClick={handleLogOutUser} className="w-full">
-              Log Out
+              Log Out <LogOut />
             </Button>
           </div>
         </div>

@@ -48,7 +48,8 @@ const AllTransaction = () => {
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
       <h1 className="text-3xl font-bold text-accent-foreground mb-5">
-        Transaction history
+        Transaction History{" "}
+        <sup className="text-blue-800">({allTransaction?.meta?.total})</sup>
       </h1>
       <div>
         <div className="w-full">
