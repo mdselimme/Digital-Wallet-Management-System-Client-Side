@@ -8,7 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Pagination,
   PaginationContent,
@@ -19,16 +27,17 @@ import {
 } from "@/components/ui/pagination";
 import { useGetAllTransactionQuery } from "@/redux/features/transaction/transaction.api";
 import { useState } from "react";
+import { Label } from "@/components/ui/label";
 
 const AllTransaction = () => {
+  const [limit, setLimit] = useState<number>(10);
+  const [paymentValue, setPaymentValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 20;
-  const sort = "desc";
 
   const { data: allTransaction } = useGetAllTransactionQuery({
+    tranType: paymentValue,
     page: currentPage,
     limit,
-    sort,
   });
 
   const totalPage = allTransaction?.meta?.totalPages;
@@ -44,13 +53,47 @@ const AllTransaction = () => {
       setCurrentPage((prev) => prev + 1);
     }
   };
+  const paymentType = [
+    "CASH_IN",
+    "SEND_MONEY",
+    "CASH_OUT",
+    "BONUS",
+    "ADD_MONEY",
+    "ADD_MONEY_DIGITAL",
+    "B2B",
+  ];
+
+  const paymentValueChange = (data: string) => {
+    setPaymentValue(data);
+  };
+
+  const rowOfData = (value: string) => {
+    setLimit(Number(value));
+  };
 
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
-      <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
-        Transaction History{" "}
-        <sup className="text-blue-800">({allTransaction?.meta?.total})</sup>
-      </h1>
+      <div className=" flex items-center justify-between flex-col md:flex-row">
+        <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
+          Transaction History{" "}
+          <sup className="text-blue-800">({allTransaction?.meta?.total})</sup>
+        </h1>
+        <Select onValueChange={paymentValueChange}>
+          <SelectTrigger className="w-full mb-2 md:w-[350px]">
+            <SelectValue placeholder="Payment Type Filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Filter Transaction Type</SelectLabel>
+              {paymentType.map((item: string) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         <div className="w-full">
           <div className="[&>div]:max-h-[60vh]">
@@ -85,7 +128,23 @@ const AllTransaction = () => {
                 <TableRow className="hover:bg-transparent"></TableRow>
               </TableFooter>
             </Table>
-            <div className="mt-5">
+            <div className="mt-5 flex justify-center flex-col md:flex-row gap-y-2">
+              <div className="flex items-center">
+                <Label className="mr-2">Rows</Label>
+                <Select onValueChange={rowOfData}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Number Of Data" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Number Of Row</SelectLabel>
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="20">20</SelectItem>
+                      <SelectItem value="30">30</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               {totalPage > 1 && (
                 <Pagination>
                   <PaginationContent>
