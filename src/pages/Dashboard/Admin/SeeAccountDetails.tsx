@@ -12,9 +12,7 @@ import {
 import { useGetSingleUserQuery } from "@/redux/features/user/user.api";
 
 const SeeAccountDetails = ({ userId }: { userId: string }) => {
-  console.log(userId);
   const { data: userData } = useGetSingleUserQuery({ id: userId });
-  console.log(userData);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,14 +20,45 @@ const SeeAccountDetails = ({ userId }: { userId: string }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Account Details</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+          <DialogTitle className="mb-2">Account Details</DialogTitle>
+          <DialogDescription className="flex flex-col gap-y-2">
+            <span>userId: {userData?._id}</span>
+            <span>Name: {userData?.name}</span>
+            <span>Wallet Id: {userData?.walletId?._id}</span>
+            <span>
+              Balance: {userData?.walletId?.balance.toFixed(2)}{" "}
+              <span>&#2547;</span>{" "}
+            </span>
+            <span>Email: {userData?.email}</span>
+            <span>Phone: {userData?.phone}</span>
+            <span>Account Type: {userData?.role}</span>
+            <span>
+              Active:{" "}
+              {userData?.isActive !== "Active" ? (
+                <span className="font-bold text-red-700">
+                  {userData?.isActive}
+                </span>
+              ) : (
+                <span className="font-bold text-green-700">
+                  {" "}
+                  {userData?.isActive}
+                </span>
+              )}
+            </span>
+            <span>Status: {userData?.userStatus}</span>
+            <span>
+              Verified:{" "}
+              {userData?.isVerified ? (
+                <span className="font-bold text-green-700">Verified</span>
+              ) : (
+                <span className="font-bold text-red-700">Not Verified</span>
+              )}
+            </span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

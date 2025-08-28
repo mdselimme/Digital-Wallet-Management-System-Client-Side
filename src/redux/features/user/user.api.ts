@@ -66,9 +66,10 @@ const userApi = baseApi.injectEndpoints({
         }),
         //get single user
         getSingleUser: builder.query({
-            query: (id) => ({
-                url: `/user/${id}`
-            })
+            query: (body) => ({
+                url: `/user/${body.id}`
+            }),
+            transformResponse: (response) => response.data
         }),
     })
 });

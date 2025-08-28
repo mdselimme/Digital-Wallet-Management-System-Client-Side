@@ -74,9 +74,6 @@ const AllUsersManagement = () => {
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Phone</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Active</TableHead>
-                  <TableHead>Verified</TableHead>
                   <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
@@ -87,28 +84,7 @@ const AllUsersManagement = () => {
                     <TableCell>{item?.name}</TableCell>
                     <TableCell>{item?.email}</TableCell>
                     <TableCell>{item?.phone}</TableCell>
-                    <TableCell>
-                      {item?.userStatus === "Suspend" ? (
-                        <span className="text-red-700 font-bold">
-                          {item?.userStatus}
-                        </span>
-                      ) : (
-                        item?.userStatus
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {item?.isActive === "Blocked" ||
-                      item?.isActive === "Deleted" ? (
-                        <span className="text-red-700 font-bold">
-                          {item?.isActive}
-                        </span>
-                      ) : (
-                        item?.isActive
-                      )}
-                    </TableCell>
-                    <TableCell className="text-green-800 font-bold">
-                      {item?.isVerified ? "Verified" : "Not Verified"}
-                    </TableCell>
+
                     <TableCell className="text-right">
                       <SeeAccountDetails userId={item?._id} />
                     </TableCell>
