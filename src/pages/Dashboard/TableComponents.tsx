@@ -20,7 +20,11 @@ import { useGetMyTransactionQuery } from "@/redux/features/transaction/transacti
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import { useState } from "react";
 
-export default function TableComponents() {
+export default function TableComponents({
+  paymentValue,
+}: {
+  paymentValue: string;
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
   const sort = "desc";
@@ -29,6 +33,7 @@ export default function TableComponents() {
     page: currentPage,
     limit,
     sort,
+    tranType: paymentValue,
   });
 
   const totalPage = myTransaction?.meta?.totalPages;
@@ -96,7 +101,10 @@ export default function TableComponents() {
                       : "cursor-pointer"
                   }
                 >
-                  <PaginationPrevious onClick={pagePrev} />
+                  <PaginationPrevious
+                    className="dark:bg-background"
+                    onClick={pagePrev}
+                  />
                 </PaginationItem>
                 {Array.from({ length: totalPage }, (_, index) => index + 1).map(
                   (page) => (
@@ -104,7 +112,14 @@ export default function TableComponents() {
                       onClick={() => setCurrentPage(page)}
                       key={page}
                     >
-                      <PaginationLink isActive={currentPage === page}>
+                      <PaginationLink
+                        className={
+                          currentPage !== page
+                            ? "dark:bg-foreground dark:text-black"
+                            : ""
+                        }
+                        isActive={currentPage === page}
+                      >
                         {page}
                       </PaginationLink>
                     </PaginationItem>
@@ -117,7 +132,10 @@ export default function TableComponents() {
                       : "cursor-pointer"
                   }
                 >
-                  <PaginationNext onClick={pageNext} />
+                  <PaginationNext
+                    className="dark:bg-background"
+                    onClick={pageNext}
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>

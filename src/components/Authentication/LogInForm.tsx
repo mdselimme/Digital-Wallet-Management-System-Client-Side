@@ -142,11 +142,11 @@ export function LoginForm({
               </div>
             </div>
           </div>
-          <div className="bg-muted relative hidden md:block">
+          <div className="bg-muted dark:bg-amber-50 relative hidden md:block">
             <img
               src={AuthLogo}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-center dark:brightness-[0.8]"
             />
           </div>
         </CardContent>

@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/pagination";
 import { useState } from "react";
 import { useUserGetAllQuery } from "@/redux/features/user/user.api";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -29,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import SeeAccountDetails from "./SeeAccountDetails";
 
 const AllUsersManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +37,8 @@ const AllUsersManagement = () => {
     page: currentPage,
     limit,
   });
+
+  console.log(allUsers);
 
   const totalPage = allUsers?.meta?.totalPages;
 
@@ -58,7 +60,7 @@ const AllUsersManagement = () => {
 
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
-      <h1 className="text-3xl font-bold text-accent-foreground mb-5">
+      <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
         All Users{" "}
         <span className="text-green-600">({allUsers?.meta?.total})</span>
       </h1>
@@ -79,7 +81,7 @@ const AllUsersManagement = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {allUsers?.users.map((item: any, idx: number) => (
+                {allUsers?.data.map((item: any, idx: number) => (
                   <TableRow key={item._id}>
                     <TableCell className="font-medium">{idx + 1}</TableCell>
                     <TableCell>{item?.name}</TableCell>
@@ -108,7 +110,7 @@ const AllUsersManagement = () => {
                       {item?.isVerified ? "Verified" : "Not Verified"}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button>See Details</Button>
+                      <SeeAccountDetails userId={item?._id} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -119,7 +121,7 @@ const AllUsersManagement = () => {
             </Table>
           </div>
         </div>
-        <div className="mt-5 flex justify-center">
+        <div className="mt-5 flex justify-center flex-col md:flex-row gap-y-2">
           <div className="flex items-center">
             <Label className="mr-2">Rows</Label>
             <Select onValueChange={rowOfData}>
@@ -146,7 +148,10 @@ const AllUsersManagement = () => {
                       : "cursor-pointer"
                   }
                 >
-                  <PaginationPrevious onClick={pagePrev} />
+                  <PaginationPrevious
+                    className="dark:bg-background"
+                    onClick={pagePrev}
+                  />
                 </PaginationItem>
                 {Array.from({ length: totalPage }, (_, index) => index + 1).map(
                   (page) => (
@@ -154,7 +159,14 @@ const AllUsersManagement = () => {
                       onClick={() => setCurrentPage(page)}
                       key={page}
                     >
-                      <PaginationLink isActive={currentPage === page}>
+                      <PaginationLink
+                        className={
+                          currentPage !== page
+                            ? "dark:bg-foreground dark:text-black"
+                            : ""
+                        }
+                        isActive={currentPage === page}
+                      >
                         {page}
                       </PaginationLink>
                     </PaginationItem>
@@ -167,7 +179,10 @@ const AllUsersManagement = () => {
                       : "cursor-pointer"
                   }
                 >
-                  <PaginationNext onClick={pageNext} />
+                  <PaginationNext
+                    className="dark:bg-background"
+                    onClick={pageNext}
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>

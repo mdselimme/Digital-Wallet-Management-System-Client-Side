@@ -47,7 +47,7 @@ const AllTransaction = () => {
 
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
-      <h1 className="text-3xl font-bold text-accent-foreground mb-5">
+      <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
         Transaction History{" "}
         <sup className="text-blue-800">({allTransaction?.meta?.total})</sup>
       </h1>
@@ -96,7 +96,10 @@ const AllTransaction = () => {
                           : "cursor-pointer"
                       }
                     >
-                      <PaginationPrevious onClick={pagePrev} />
+                      <PaginationPrevious
+                        className="dark:bg-background"
+                        onClick={pagePrev}
+                      />
                     </PaginationItem>
                     {Array.from(
                       { length: totalPage },
@@ -106,7 +109,14 @@ const AllTransaction = () => {
                         onClick={() => setCurrentPage(page)}
                         key={page}
                       >
-                        <PaginationLink isActive={currentPage === page}>
+                        <PaginationLink
+                          className={
+                            currentPage !== page
+                              ? "dark:bg-foreground dark:text-black"
+                              : ""
+                          }
+                          isActive={currentPage === page}
+                        >
                           {page}
                         </PaginationLink>
                       </PaginationItem>
@@ -118,7 +128,10 @@ const AllTransaction = () => {
                           : "cursor-pointer"
                       }
                     >
-                      <PaginationNext onClick={pageNext} />
+                      <PaginationNext
+                        className="dark:bg-background"
+                        onClick={pageNext}
+                      />
                     </PaginationItem>
                   </PaginationContent>
                 </Pagination>
