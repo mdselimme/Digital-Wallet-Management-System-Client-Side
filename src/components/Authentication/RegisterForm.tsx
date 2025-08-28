@@ -97,11 +97,11 @@ export function RegisterForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <div className="bg-muted relative hidden md:block">
+          <div className="bg-muted dark:bg-accent relative hidden md:block">
             <img
               src={AuthLogo}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2]"
             />
           </div>
           <div className="p-6 md:p-8">

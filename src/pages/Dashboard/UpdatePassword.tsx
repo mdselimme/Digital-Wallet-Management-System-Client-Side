@@ -50,7 +50,6 @@ const UpdatePassword = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof updatePasswordSchema>) => {
-    console.log(data);
     const toastId = toast.loading("Password Updating ......");
 
     const passwordBody = {
@@ -64,7 +63,6 @@ const UpdatePassword = () => {
       }
     } catch (error: any) {
       if (error) {
-        console.log(error);
         toast.error(error?.data?.message, { id: toastId });
       }
     }

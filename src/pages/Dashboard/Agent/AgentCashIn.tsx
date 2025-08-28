@@ -58,7 +58,6 @@ const AgentCashIn = () => {
   const senderFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
-    console.log(data);
     const toastId = toast.loading("Cash In Processing ......");
 
     const cashInBody = {

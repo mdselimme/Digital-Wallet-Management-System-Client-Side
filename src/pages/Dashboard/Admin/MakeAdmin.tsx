@@ -49,7 +49,6 @@ const MakeAdmin = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof updatePasswordSchema>) => {
-    console.log(data);
     const toastId = toast.loading("Role Updating ......");
 
     const emailBody = {
@@ -63,7 +62,6 @@ const MakeAdmin = () => {
       }
     } catch (error: any) {
       if (error) {
-        console.log(error);
         toast.error(error?.data?.message, { id: toastId });
       }
     }

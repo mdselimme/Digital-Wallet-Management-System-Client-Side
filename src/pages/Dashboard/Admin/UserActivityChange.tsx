@@ -50,7 +50,6 @@ const UserActivityChange = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof updateUserActivitySchema>) => {
-    console.log(data);
     const toastId = toast.loading("Status Updating ......");
 
     const emailBody = {
@@ -64,9 +63,7 @@ const UserActivityChange = () => {
         toast.success("Update Status Successfully.", { id: toastId });
       }
     } catch (error: any) {
-      console.log(error);
       if (error) {
-        console.log(error);
         toast.error(error?.data?.message, { id: toastId });
       }
     }

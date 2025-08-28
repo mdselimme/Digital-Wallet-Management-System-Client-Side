@@ -16,7 +16,6 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action: PayloadAction<{ role: IAuthState["role"] }>) => {
-            console.log(action.payload)
             state.isAuthenticate = true;
             state.role = action.payload.role
         },

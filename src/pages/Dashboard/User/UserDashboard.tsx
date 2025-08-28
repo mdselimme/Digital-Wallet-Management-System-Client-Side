@@ -80,7 +80,6 @@ const UserDashboard = () => {
   const cashOutFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
-    console.log(data);
     const toastId = toast.loading("Cash Outing ......");
 
     const cashOutBody = {

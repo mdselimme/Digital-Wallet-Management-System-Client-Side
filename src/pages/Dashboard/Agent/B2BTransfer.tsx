@@ -58,7 +58,6 @@ const B2BTransaction = () => {
   const senderFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
-    console.log(data);
     const toastId = toast.loading("b2b Processing ......");
 
     const b2bBody = {

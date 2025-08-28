@@ -64,7 +64,6 @@ const UpdateProfile = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof updateProfileSchema>) => {
-    console.log(data);
     const toastId = toast.loading("Profile Updating ......");
 
     const userBody = {
@@ -80,7 +79,6 @@ const UpdateProfile = () => {
       }
     } catch (error: any) {
       if (error) {
-        console.log(error);
         toast.error(error?.data?.message, { id: toastId });
       }
     }

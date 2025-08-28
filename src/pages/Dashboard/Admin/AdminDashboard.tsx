@@ -72,7 +72,6 @@ const AdminDashboard = () => {
   const senderFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
-    console.log(data);
     const toastId = toast.loading("Money is Adding ......");
 
     const addMoneyData = {
@@ -88,7 +87,6 @@ const AdminDashboard = () => {
         toast.success("Add money successfully..", { id: toastId });
       }
     } catch (error: any) {
-      console.log(error);
       if (error) {
         toast.error(error?.data?.message, { id: toastId });
       }

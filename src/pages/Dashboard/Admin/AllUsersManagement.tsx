@@ -29,11 +29,19 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import SeeAccountDetails from "./SeeAccountDetails";
+import { Input } from "@/components/ui/input";
 
 const AllUsersManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [fieldValue, setFieldValue] = useState<string>("");
+  const [searchData, setSearchData] = useState<{
+    field: string;
+    value: string;
+  }>({ field: "", value: "" });
   const [limit, setLimit] = useState<number>(10);
   const { data: allUsers } = useUserGetAllQuery({
+    searchField: searchData.field,
+    searchValue: searchData.value,
     page: currentPage,
     limit,
   });
@@ -56,12 +64,77 @@ const AllUsersManagement = () => {
     setLimit(Number(value));
   };
 
+  const searchFieldFunction = (e: any) => {
+    setSearchData({ field: e.target.name, value: e.target.value });
+  };
+
+  const arr = [
+    { field: "role", value: ["Admin", "User", "Agent", "Super_Admin"] },
+    { field: "isActive", value: ["Active", "Blocked", "Suspend"] },
+  ];
+
+  const fieldFuncValue = (value: string) => {
+    setFieldValue(value);
+  };
+
+  const fieldSearchSelect = arr.find(
+    (item: { field: string; value: string[] }) => item.field === fieldValue
+  );
+
+  const fieldSearchSelectValue = (data: string) => {
+    setSearchData({ field: fieldValue, value: data });
+  };
+
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
-      <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
-        All Users{" "}
-        <span className="text-green-600">({allUsers?.meta?.total})</span>
-      </h1>
+      <div className=" flex items-center justify-between flex-col md:flex-row">
+        <h1 className="text-3xl font-bold text-accent-foreground dark:text-black mb-5">
+          All Users{" "}
+          <span className="text-green-600">({allUsers?.meta?.total})</span>
+        </h1>
+        <Select onValueChange={fieldFuncValue}>
+          <SelectTrigger className="w-full mb-2 md:w-[350px]">
+            <SelectValue placeholder="Field wises" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Field Wise</SelectLabel>
+              {arr.map((item) => (
+                <SelectItem key={item.field} value={item.field}>
+                  {item.field}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select onValueChange={fieldSearchSelectValue}>
+          <SelectTrigger className="w-full mb-2 md:w-[350px]">
+            <SelectValue placeholder="Field Value" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Field Value</SelectLabel>
+              {fieldSearchSelect?.value.map((item, idx) => (
+                <SelectItem value={item} key={idx}>
+                  {item}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Input
+          onChange={searchFieldFunction}
+          name="phone"
+          className="md:w-[300px] dark:bg-black mb-2"
+          placeholder="Search by phone"
+        />
+        <Input
+          name="email"
+          onChange={searchFieldFunction}
+          className="md:w-[300px] dark:bg-black mb-2"
+          placeholder="Search by email"
+        />
+      </div>
       <div className="w-full">
         <div className="w-full">
           <div className="[&>div]:max-h-[60vh]">
@@ -76,18 +149,26 @@ const AllUsersManagement = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {allUsers?.data.map((item: any, idx: number) => (
-                  <TableRow key={item._id}>
-                    <TableCell className="font-medium">{idx + 1}</TableCell>
-                    <TableCell>{item?.name}</TableCell>
-                    <TableCell>{item?.email}</TableCell>
-                    <TableCell>{item?.phone}</TableCell>
-
-                    <TableCell className="text-right">
-                      <SeeAccountDetails userId={item?._id} />
+                {allUsers?.data?.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-black">
+                      No data found
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  allUsers?.data.map((item: any, idx: number) => (
+                    <TableRow key={item._id}>
+                      <TableCell className="font-medium">{idx + 1}</TableCell>
+                      <TableCell>{item?.name}</TableCell>
+                      <TableCell>{item?.email}</TableCell>
+                      <TableCell>{item?.phone}</TableCell>
+
+                      <TableCell className="text-right">
+                        <SeeAccountDetails userId={item?._id} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
               <TableFooter className="bg-transparent">
                 <TableRow className="hover:bg-transparent"></TableRow>

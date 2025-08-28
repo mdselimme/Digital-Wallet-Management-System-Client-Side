@@ -49,7 +49,7 @@ axiosInstanceApi.interceptors.response.use((response) => {
 
 
     if (error.response.status === 500 && error.response.data.message === "jwt expired" && !originalRequest._retry) {
-      console.log("jwt expired")
+
       originalRequest._retry = true
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -60,8 +60,7 @@ axiosInstanceApi.interceptors.response.use((response) => {
       }
       isRefreshing = true;
       try {
-        const res = await axiosInstanceApi.post("/auth/refresh-token");
-        console.log("new token ; ", res.data)
+        await axiosInstanceApi.post("/auth/refresh-token");
         processQueue(null);
         return axiosInstanceApi(originalRequest);
       } catch (error) {
