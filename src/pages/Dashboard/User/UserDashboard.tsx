@@ -29,7 +29,6 @@ import { toast } from "sonner";
 import { useUserCashOutAgentMutation } from "@/redux/features/transaction/transaction.api";
 import { useEffect, useState } from "react";
 import SendMoneyUser from "./SendMoneyUser";
-import { type DriveStep } from "driver.js";
 import "driver.js/dist/driver.css";
 import {
   Select,
@@ -42,6 +41,7 @@ import {
 } from "@/components/ui/select";
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import Loading from "@/components/Loading";
+import { userSteps } from "@/utils/driverData/userSteps";
 
 const userMoneySentSchema = z.object({
   receiverEmail: z.email({ error: "Must be a valid email." }),
@@ -72,55 +72,7 @@ const UserDashboard = () => {
   ];
 
   useEffect(() => {
-    const steps: DriveStep[] = [
-      {
-        element: "#step-1",
-        popover: {
-          title: "Users Account Details",
-          description:
-            "Here you see your account balance an and account details.",
-          side: "left",
-          align: "start",
-        },
-      },
-      {
-        element: "#step-2",
-        popover: {
-          title: "Account Action",
-          description:
-            "In this section you can send money to users and cash out to agent.",
-          side: "bottom",
-          align: "start",
-        },
-      },
-      {
-        element: "#step-3",
-        popover: {
-          title: "Send Money",
-          description: "Here You can Send Money Any Users Account.",
-          side: "bottom",
-          align: "start",
-        },
-      },
-      {
-        element: "#step-4",
-        popover: {
-          title: "Cash Out",
-          description: "Here you can Cash Out From any agent account.",
-          side: "left",
-          align: "start",
-        },
-      },
-      {
-        element: "#step-5",
-        popover: {
-          title: "Transaction Details",
-          description: "Here you can see your recent and all transaction.",
-          side: "top",
-          align: "start",
-        },
-      },
-    ];
+    const steps = userSteps;
     checkAndStartTour(steps, userData?.email, userData?.role);
   }, [userData.email, userData.role]);
 

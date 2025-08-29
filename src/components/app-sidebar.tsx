@@ -25,9 +25,14 @@ import { toast } from "sonner";
 import { logout } from "@/redux/slice/authSlice/authSlice";
 import { getSideBarRoleItems } from "@/utils/getSidebarItems";
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
-import { LogOut } from "lucide-react";
+import { LogOut, RotateCcw } from "lucide-react";
 import { ModeToggle } from "./mode.toggle";
 import Loading from "./Loading";
+import { userSteps } from "@/utils/driverData/userSteps";
+import { agentSteps } from "@/utils/driverData/agentSteps";
+import { adminSteps } from "@/utils/driverData/adminSteps";
+import { checkAndStartTour } from "@/utils/ShowDriver";
+import type { DriveStep } from "driver.js";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData, isLoading: userMeLoading } = useUserGetMeQuery({});
@@ -58,6 +63,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   if (userMeLoading) {
     return <Loading />;
   }
+
+  const restartTour = () => {
+    localStorage.removeItem("tour_completed");
+    let steps: DriveStep[] = [];
+    if (userData?.role === "User") {
+      steps = userSteps;
+    }
+    if (userData?.role === "Agent") {
+      steps = agentSteps;
+    }
+    if (userData?.role === "Admin") {
+      steps = adminSteps;
+    }
+    if (userData?.role === "Super_Admin") {
+      steps = adminSteps;
+    }
+    checkAndStartTour(steps, userData?.email, userData?.role);
+  };
 
   return (
     <Sidebar {...props}>
@@ -90,6 +113,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroup>
           ))}
           <div>
+            <Button onClick={restartTour} className="w-full mt-5">
+              Restart Tour <RotateCcw />
+            </Button>
             <Button onClick={handleLogOutUser} className="w-full mt-5">
               Log Out <LogOut />
             </Button>
