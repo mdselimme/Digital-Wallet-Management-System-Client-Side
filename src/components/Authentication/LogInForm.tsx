@@ -22,7 +22,7 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks/redux.hooks";
 import { login } from "@/redux/slice/authSlice/authSlice";
 import { dashboardRoutes } from "@/router/DashboardRoute";
-
+import { motion } from "motion/react";
 const logInAccountSchema = z.object({
   email: z.email({ error: "Must be a valid email." }),
   password: z
@@ -78,7 +78,13 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <div className="p-6 md:p-8">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="p-6 md:p-8"
+          >
             <div className="flex flex-col gap-6">
               <div className="text-center underline text-muted-foreground font-semibold">
                 <Link to={"/"}>Go to Home</Link>
@@ -141,14 +147,20 @@ export function LoginForm({
                 </Link>
               </div>
             </div>
-          </div>
-          <div className="bg-muted dark:bg-amber-50 relative hidden md:block">
+          </motion.div>
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="bg-muted dark:bg-amber-50 relative hidden md:block"
+          >
             <img
               src={AuthLogo}
               alt="Image"
               className="absolute inset-0 h-full w-full object-center dark:brightness-[0.8]"
             />
-          </div>
+          </motion.div>
         </CardContent>
       </Card>
     </div>

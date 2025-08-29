@@ -26,7 +26,7 @@ import {
 } from "../ui/select";
 import { toast } from "sonner";
 import { useUserRegisterMutation } from "@/redux/features/user/user.api";
-
+import { motion } from "motion/react";
 const registerAccountSchema = z.object({
   name: z
     .string({ error: "Name is required." })
@@ -97,14 +97,26 @@ export function RegisterForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <div className="bg-muted dark:bg-accent relative hidden md:block">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="bg-muted dark:bg-accent relative hidden md:block"
+          >
             <img
               src={AuthLogo}
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2]"
             />
-          </div>
-          <div className="p-6 md:p-8">
+          </motion.div>
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="p-6 md:p-8"
+          >
             <div className="flex flex-col gap-6">
               <div className="text-center underline text-muted-foreground font-semibold">
                 <Link to={"/"}>Go to Home</Link>
@@ -225,7 +237,7 @@ export function RegisterForm({
                 </Link>
               </div>
             </div>
-          </div>
+          </motion.div>
         </CardContent>
       </Card>
     </div>

@@ -1,5 +1,5 @@
 import DigiPayLogo from "@/assets/images/Logo";
-
+import { motion } from "motion/react";
 interface MenuItem {
   title: string;
   links: {
@@ -76,7 +76,13 @@ const Footer = ({
     <section className="py-10 bg-accent">
       <div className="container mx-auto">
         <footer>
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6 text-center">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="grid grid-cols-2 gap-8 lg:grid-cols-6 text-center"
+          >
             <div className="col-span-2 mb-8 lg:mb-0">
               <div className="flex items-center gap-2 lg:justify-start">
                 <DigiPayLogo className="mx-auto" width={100} height={80} />
@@ -98,7 +104,7 @@ const Footer = ({
                 </ul>
               </div>
             ))}
-          </div>
+          </motion.div>
           <div className="text-muted-foreground mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium md:flex-row md:items-center">
             <p className="text-center">{copyright}</p>
             <div className="text-center">

@@ -1,19 +1,31 @@
 import { Check } from "lucide-react";
-
+import { motion } from "motion/react";
 import { Separator } from "@/components/ui/separator";
 
 const PricingPage = () => {
   return (
     <section className="pb-32 pt-10">
-      <div className="text-center mb-12">
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        layout
+        className="text-center mb-12"
+      >
         <h2 className="text-4xl font-semibold text-pretty lg:text-6xl mb-5">
           Pricing And Fees
         </h2>
         <p className="text-muted-foreground lg:text-xl text-center">
           See Our Payment Fees by Account wise
         </p>
-      </div>
-      <div className="container mx-auto grid md:grid-cols-2 gap-10 justify-between items-start p-4">
+      </motion.div>
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        layout
+        className="container mx-auto grid md:grid-cols-2 gap-10 justify-between items-start p-4"
+      >
         <div className="flex flex-col items-center gap-6 text-center">
           <div className="mx-auto flex w-full flex-col rounded-lg border p-6">
             <div className="flex justify-center">
@@ -82,7 +94,7 @@ const PricingPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

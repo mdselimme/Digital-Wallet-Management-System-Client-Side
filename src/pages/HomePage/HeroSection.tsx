@@ -2,13 +2,21 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import HeroBanner from "../../assets/images/banner-mobile.svg";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 
 const HeroSection = () => {
   return (
     <section className="bg-muted">
       <div className="container mx-auto">
         <div className="grid items-center gap-8 lg:grid-cols-2">
-          <div className="flex flex-col items-center p-16 text-center lg:items-start lg:text-left">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            style={{ x: 100 }}
+            className="flex flex-col items-center p-16 text-center lg:items-start lg:text-left"
+          >
             <p>Manage Your Money With a smart way</p>
             <h1 className="my-6 text-pretty text-4xl font-bold leading-20 lg:text-6xl">
               Smart Finance <br /> Secure Future
@@ -27,14 +35,19 @@ const HeroSection = () => {
                 </Button>
               </Link>
             </div>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 75 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            animate="visible"
+          >
             <img
               src={HeroBanner}
               alt="placeholder hero"
               className="h-full w-full object-cover"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

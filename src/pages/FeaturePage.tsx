@@ -6,7 +6,7 @@ import {
   Zap,
   ZoomIn,
 } from "lucide-react";
-
+import { motion } from "motion/react";
 const FeaturePage = () => {
   const heading = "Our Core Features";
   const subheading = "Digipay Features";
@@ -48,7 +48,13 @@ const FeaturePage = () => {
   ];
   return (
     <section className="py-20 px-5 md:px-0">
-      <div className="container mx-auto max-w-7xl">
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        layout
+        className="container mx-auto max-w-7xl"
+      >
         <p className="mb-4 text-xs text-muted-foreground md:pl-5">
           {subheading}
         </p>
@@ -70,7 +76,7 @@ const FeaturePage = () => {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -3,6 +3,7 @@ import CustomerBanner from "../../assets/images/hero-banner.svg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router";
+import { motion } from "motion/react";
 
 const CustomerSection = () => {
   const badge = "✨ Our Customer Our Family Member.";
@@ -27,14 +28,27 @@ const CustomerSection = () => {
     <section className="py-32">
       <div className="container mx-auto">
         <div className="grid items-center gap-8 lg:grid-cols-2">
-          <div className="w-full">
+          <motion.div
+            className="box"
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            style={{ x: 100 }}
+          >
             <img
               src={CustomerBanner}
               alt={image.alt}
               className="max-w-full rounded-md object-cover"
             />
-          </div>
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left p-10">
+          </motion.div>
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            layout
+            className="flex flex-col items-center text-center lg:items-start lg:text-left p-10"
+          >
             {badge && (
               <Badge variant="outline" className="py-3 px-10">
                 {badge}
@@ -61,7 +75,7 @@ const CustomerSection = () => {
                 </Button>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

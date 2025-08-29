@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { motion } from "motion/react";
 
 const contactFormSchema = z.object({
   name: z.string().min(3, { error: "Enter your name min 3 character length" }),
@@ -82,7 +83,13 @@ const ContactPage = () => {
   };
 
   return (
-    <section className="py-32">
+    <motion.section
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      layout
+      className="py-32"
+    >
       <div className="container mx-auto">
         <div className="mx-auto flex sm:max-w-full md:max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
           <div className="mx-auto flex sm:w-full md:max-w-1/2 flex-col justify-between gap-10">
@@ -224,7 +231,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { motion } from "motion/react";
 const TeamDetails = () => {
   const heading = "Our Teams";
   const description =
@@ -44,7 +44,13 @@ const TeamDetails = () => {
   ];
 
   return (
-    <section className="py-16 mb-20">
+    <motion.section
+      initial={{ scale: 0, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      layout
+      className="py-16 mb-20"
+    >
       <div className="container mx-auto flex flex-col items-center text-center">
         <h2 className="my-6 text-pretty text-2xl font-bold lg:text-4xl">
           {heading}
@@ -65,7 +71,7 @@ const TeamDetails = () => {
           </div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 };
 
