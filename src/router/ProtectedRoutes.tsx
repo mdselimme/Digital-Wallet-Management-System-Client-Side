@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import type { ComponentType } from "react";
 import { Navigate } from "react-router";
@@ -11,7 +12,11 @@ export const ProtectedRoutes = (
   { allowedRoles }: IUserProps
 ) => {
   return function AuthWrapper() {
-    const { data: userData } = useUserGetMeQuery({});
+    const { data: userData, isLoading } = useUserGetMeQuery({});
+
+    if (isLoading) {
+      return <Loading />;
+    }
 
     if (!userData) {
       return <Navigate to={"/login"} replace />;

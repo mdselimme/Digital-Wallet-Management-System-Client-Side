@@ -1,9 +1,9 @@
 const Loading = () => {
   return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="flex flex-col items-center space-y-4">
-        <div className="h-8 w-8 animate-spin text-gray-500 dark:text-gray-400" />
-        <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+    <div className="flex items-center justify-center h-screen w-full bg-accent relative top-0 left-0 z-50">
+      <div className="relative">
+        <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+        <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
       </div>
     </div>
   );

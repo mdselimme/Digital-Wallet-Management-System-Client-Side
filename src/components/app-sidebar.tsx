@@ -26,9 +26,11 @@ import { logout } from "@/redux/slice/authSlice/authSlice";
 import { getSideBarRoleItems } from "@/utils/getSidebarItems";
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import { LogOut } from "lucide-react";
+import { ModeToggle } from "./mode.toggle";
+import Loading from "./Loading";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: userData } = useUserGetMeQuery({});
+  const { data: userData, isLoading: userMeLoading } = useUserGetMeQuery({});
   const [userLogOut] = useAuthLogOutUserMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -53,13 +55,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navMain: getSideBarRoleItems(userData?.role),
   };
 
+  if (userMeLoading) {
+    return <Loading />;
+  }
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <Link to={"/"}>
-          {" "}
-          <DigiPayLogo className="mx-auto" width={150} />
-        </Link>
+        <div className="flex justify-between items-center">
+          <Link to={"/"}>
+            {" "}
+            <DigiPayLogo className="mx-auto" width={150} />
+          </Link>
+          <ModeToggle />
+        </div>
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
@@ -81,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarGroup>
           ))}
           <div>
-            <Button onClick={handleLogOutUser} className="w-full">
+            <Button onClick={handleLogOutUser} className="w-full mt-5">
               Log Out <LogOut />
             </Button>
           </div>

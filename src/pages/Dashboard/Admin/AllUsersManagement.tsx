@@ -30,6 +30,7 @@ import {
 import { Label } from "@/components/ui/label";
 import SeeAccountDetails from "./SeeAccountDetails";
 import { Input } from "@/components/ui/input";
+import Loading from "@/components/Loading";
 
 const AllUsersManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +40,7 @@ const AllUsersManagement = () => {
     value: string;
   }>({ field: "", value: "" });
   const [limit, setLimit] = useState<number>(10);
-  const { data: allUsers } = useUserGetAllQuery({
+  const { data: allUsers, isLoading: allUsersLoading } = useUserGetAllQuery({
     searchField: searchData.field,
     searchValue: searchData.value,
     page: currentPage,
@@ -84,6 +85,10 @@ const AllUsersManagement = () => {
   const fieldSearchSelectValue = (data: string) => {
     setSearchData({ field: fieldValue, value: data });
   };
+
+  if (allUsersLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">

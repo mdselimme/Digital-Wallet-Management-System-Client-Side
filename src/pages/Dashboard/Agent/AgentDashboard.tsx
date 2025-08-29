@@ -12,18 +12,78 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { checkAndStartTour } from "@/utils/ShowDriver";
+import type { DriveStep } from "driver.js";
+import Loading from "@/components/Loading";
 const AgentDashboard = () => {
   const [paymentValue, setPaymentValue] = useState<string>("");
-  const { data: userData } = useUserGetMeQuery({});
+  const { data: userData, isLoading: userDataLoading } = useUserGetMeQuery({});
   const paymentType = ["CASH_IN", "CASH_OUT", "BONUS", "ADD_MONEY"];
   const paymentValueChange = (data: string) => {
     setPaymentValue(data);
   };
+  useEffect(() => {
+    const steps: DriveStep[] = [
+      {
+        element: "#agent-1",
+        popover: {
+          title: "Users Account Details",
+          description:
+            "Here you see your account balance an and account details.",
+          side: "left",
+          align: "start",
+        },
+      },
+      {
+        element: "#agent-2",
+        popover: {
+          title: "Account Action",
+          description:
+            "In this section you can b2b to other agent and cash in to user.",
+          side: "bottom",
+          align: "start",
+        },
+      },
+      {
+        element: "#agent-3",
+        popover: {
+          title: "Cash In",
+          description: "Here You can Cash In Any Users Account.",
+          side: "bottom",
+          align: "start",
+        },
+      },
+      {
+        element: "#agent-4",
+        popover: {
+          title: "B2B",
+          description: "Here you can b2b transaction with Other agent.",
+          side: "left",
+          align: "start",
+        },
+      },
+      {
+        element: "#agent-5",
+        popover: {
+          title: "Transaction Details",
+          description: "Here you can see your recent and all transaction.",
+          side: "top",
+          align: "start",
+        },
+      },
+    ];
+    checkAndStartTour(steps, userData?.email, userData?.role);
+  }, [userData.email, userData.role]);
+
+  if (userDataLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="p-6 md:p-14 bg-primary-foreground h-screen rounded-4xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
-        <div className="bg-[#1652EB] p-5 md:p-10 rounded-4xl">
+        <div id="agent-1" className="bg-[#1652EB] p-5 md:p-10 rounded-4xl">
           <h1 className="text-3xl font-bold text-white mb-4">
             Current Balance
           </h1>
@@ -45,18 +105,30 @@ const AgentDashboard = () => {
             </p>
           </div>
         </div>
-        <div className="bg-[rgba(11,121,73,061)] p-5 md:col-span-2 md:p-10 rounded-4xl">
+        <div
+          id="agent-2"
+          className="bg-[rgba(11,121,73,061)] p-5 md:col-span-2 md:p-10 rounded-4xl"
+        >
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
           <div className="grid grid-cols-2 gap-10">
-            <div className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center">
+            <div
+              id="agent-3"
+              className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center"
+            >
               <AgentCashIn />
             </div>
-            <div className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center">
+            <div
+              id="agent-4"
+              className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center"
+            >
               <B2BTransaction />
             </div>
           </div>
         </div>
-        <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
+        <div
+          id="agent-5"
+          className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl"
+        >
           <div className=" flex items-center justify-between flex-col md:flex-row">
             <h1 className="text-lg md:text-3xl font-bold text-accent-foreground dark:text-black mb-5">
               Transaction history

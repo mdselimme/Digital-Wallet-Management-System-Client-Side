@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Loading from "@/components/Loading";
 import {
   Pagination,
   PaginationContent,
@@ -28,13 +29,14 @@ export default function TableComponents({
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
   const sort = "desc";
-  const { data: userData } = useUserGetMeQuery({});
-  const { data: myTransaction } = useGetMyTransactionQuery({
-    page: currentPage,
-    limit,
-    sort,
-    tranType: paymentValue,
-  });
+  const { data: userData, isLoading: userDataLoading } = useUserGetMeQuery({});
+  const { data: myTransaction, isLoading: myTransactionLoading } =
+    useGetMyTransactionQuery({
+      page: currentPage,
+      limit,
+      sort,
+      tranType: paymentValue,
+    });
 
   const totalPage = myTransaction?.meta?.totalPages;
 
@@ -49,6 +51,10 @@ export default function TableComponents({
       setCurrentPage((prev) => prev + 1);
     }
   };
+
+  if (userDataLoading || myTransactionLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="w-full">

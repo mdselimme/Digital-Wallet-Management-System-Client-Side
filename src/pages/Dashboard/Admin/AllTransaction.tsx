@@ -29,17 +29,19 @@ import { useGetAllTransactionQuery } from "@/redux/features/transaction/transact
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import SeeTransactionDetails from "./SeeTransactionDetails";
+import Loading from "@/components/Loading";
 
 const AllTransaction = () => {
   const [limit, setLimit] = useState<number>(10);
   const [paymentValue, setPaymentValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: allTransaction } = useGetAllTransactionQuery({
-    tranType: paymentValue,
-    page: currentPage,
-    limit,
-  });
+  const { data: allTransaction, isLoading: allTransactionLoading } =
+    useGetAllTransactionQuery({
+      tranType: paymentValue,
+      page: currentPage,
+      limit,
+    });
 
   const totalPage = allTransaction?.meta?.totalPages;
 
@@ -71,6 +73,10 @@ const AllTransaction = () => {
   const rowOfData = (value: string) => {
     setLimit(Number(value));
   };
+
+  if (allTransactionLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">

@@ -27,8 +27,10 @@ import {
 import Password from "@/components/ui/password";
 import { toast } from "sonner";
 import { useUserCashOutAgentMutation } from "@/redux/features/transaction/transaction.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SendMoneyUser from "./SendMoneyUser";
+import { type DriveStep } from "driver.js";
+import "driver.js/dist/driver.css";
 import {
   Select,
   SelectContent,
@@ -38,6 +40,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { checkAndStartTour } from "@/utils/ShowDriver";
+import Loading from "@/components/Loading";
 
 const userMoneySentSchema = z.object({
   receiverEmail: z.email({ error: "Must be a valid email." }),
@@ -55,7 +59,7 @@ const userMoneySentSchema = z.object({
 
 const UserDashboard = () => {
   const [paymentValue, setPaymentValue] = useState("");
-  const { data: userData } = useUserGetMeQuery({});
+  const { data: userData, isLoading: userDataLoading } = useUserGetMeQuery({});
   const [open, setOpen] = useState(false);
 
   const [cashOutMoneyAgent] = useUserCashOutAgentMutation();
@@ -66,6 +70,59 @@ const UserDashboard = () => {
     "BONUS",
     "ADD_MONEY",
   ];
+
+  useEffect(() => {
+    const steps: DriveStep[] = [
+      {
+        element: "#step-1",
+        popover: {
+          title: "Users Account Details",
+          description:
+            "Here you see your account balance an and account details.",
+          side: "left",
+          align: "start",
+        },
+      },
+      {
+        element: "#step-2",
+        popover: {
+          title: "Account Action",
+          description:
+            "In this section you can send money to users and cash out to agent.",
+          side: "bottom",
+          align: "start",
+        },
+      },
+      {
+        element: "#step-3",
+        popover: {
+          title: "Send Money",
+          description: "Here You can Send Money Any Users Account.",
+          side: "bottom",
+          align: "start",
+        },
+      },
+      {
+        element: "#step-4",
+        popover: {
+          title: "Cash Out",
+          description: "Here you can Cash Out From any agent account.",
+          side: "left",
+          align: "start",
+        },
+      },
+      {
+        element: "#step-5",
+        popover: {
+          title: "Transaction Details",
+          description: "Here you can see your recent and all transaction.",
+          side: "top",
+          align: "start",
+        },
+      },
+    ];
+    checkAndStartTour(steps, userData?.email, userData?.role);
+  }, [userData.email, userData.role]);
 
   const form = useForm<z.infer<typeof userMoneySentSchema>>({
     resolver: zodResolver(userMoneySentSchema) as any,
@@ -106,10 +163,14 @@ const UserDashboard = () => {
     setPaymentValue(data);
   };
 
+  if (userDataLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="p-6 md:p-14 bg-primary-foreground h-screen rounded-4xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
-        <div className="bg-[#1652EB] p-5 md:p-10 rounded-4xl">
+        <div id="step-1" className="bg-[#1652EB] p-5 md:p-10 rounded-4xl">
           <h1 className="text-3xl font-bold text-white mb-4">
             Current Balance
           </h1>
@@ -131,13 +192,22 @@ const UserDashboard = () => {
             </p>
           </div>
         </div>
-        <div className="bg-[rgba(11,121,73,061)] p-5 md:col-span-2 md:p-10 rounded-4xl">
+        <div
+          id="step-2"
+          className="bg-[rgba(11,121,73,061)] p-5 md:col-span-2 md:p-10 rounded-4xl"
+        >
           <h1 className="text-3xl font-bold text-white mb-4">Account Action</h1>
           <div className="grid grid-cols-2 gap-10">
-            <div className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center">
+            <div
+              id="step-3"
+              className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center"
+            >
               <SendMoneyUser />
             </div>
-            <div className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center">
+            <div
+              id="step-4"
+              className="bg-[#EBE7FF] dark:bg-amber-200 dark:text-black rounded-xl p-4 text-center"
+            >
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger className="w-full">
                   <BanknoteArrowUp className="mx-auto mb-2" size={70} />
@@ -220,7 +290,10 @@ const UserDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl">
+        <div
+          id="step-5"
+          className="bg-white p-5 md:col-span-3 md:p-10 rounded-4xl"
+        >
           <div className=" flex items-center justify-between flex-col md:flex-row">
             <h1 className="text-lg md:text-3xl font-bold text-accent-foreground dark:text-black mb-5">
               Transaction history
