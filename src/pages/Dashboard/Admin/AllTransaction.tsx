@@ -28,6 +28,7 @@ import {
 import { useGetAllTransactionQuery } from "@/redux/features/transaction/transaction.api";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import SeeTransactionDetails from "./SeeTransactionDetails";
 
 const AllTransaction = () => {
   const [limit, setLimit] = useState<number>(10);
@@ -104,10 +105,9 @@ const AllTransaction = () => {
                   <TableHead>Trans Id</TableHead>
                   <TableHead>Send</TableHead>
                   <TableHead>To</TableHead>
-                  <TableHead>Fee</TableHead>
-                  <TableHead>Commission</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -117,10 +117,11 @@ const AllTransaction = () => {
                     <TableCell className="font-medium">{item._id}</TableCell>
                     <TableCell>{item?.send.email}</TableCell>
                     <TableCell>{item?.to.email}</TableCell>
-                    <TableCell>{item?.fee.toFixed(2)}</TableCell>
-                    <TableCell>{item?.commission.toFixed(2)}</TableCell>
                     <TableCell>{item?.type}</TableCell>
                     <TableCell className="text-right">{item?.amount}</TableCell>
+                    <TableCell className="text-right">
+                      <SeeTransactionDetails tranId={item._id} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

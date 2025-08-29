@@ -59,10 +59,11 @@ const authApi = baseApi.injectEndpoints({
     }),
     //get single transaction
     getSingleTransaction: builder.query({
-      query: (id) => ({
-        url: `transaction/${id}`,
+      query: (data) => ({
+        url: `transaction/${data?.id}`,
         method: "GET",
       }),
+      transformResponse: (response) => response?.data,
     }),
     //get all transaction
     getAllTransaction: builder.query({
@@ -83,5 +84,6 @@ export const {
   useAgentCashInUserMutation,
   useUserSendMoneyUserMutation,
   useUserCashOutAgentMutation,
-  useAgentB2BAgentMutation
+  useAgentB2BAgentMutation,
+  useGetSingleTransactionQuery
 } = authApi;
