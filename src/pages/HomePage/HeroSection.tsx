@@ -14,7 +14,6 @@ const HeroSection = () => {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             layout
-            style={{ x: 100 }}
             className="flex flex-col items-center p-16 text-center lg:items-start lg:text-left"
           >
             <p>Manage Your Money With a smart way</p>

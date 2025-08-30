@@ -23,6 +23,7 @@ import { useAppDispatch } from "@/hooks/redux.hooks";
 import { login } from "@/redux/slice/authSlice/authSlice";
 import { dashboardRoutes } from "@/router/DashboardRoute";
 import { motion } from "motion/react";
+import PageTitle from "@/utils/PageTitle";
 const logInAccountSchema = z.object({
   email: z.email({ error: "Must be a valid email." }),
   password: z
@@ -76,6 +77,7 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <PageTitle title="Digipay || Login" />
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <motion.div

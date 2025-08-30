@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { motion } from "motion/react";
+import PageTitle from "@/utils/PageTitle";
 
 const contactFormSchema = z.object({
   name: z.string().min(3, { error: "Enter your name min 3 character length" }),
@@ -88,9 +89,10 @@ const ContactPage = () => {
       whileInView={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       layout
-      className="py-32"
+      className="py-32 px-6"
     >
       <div className="container mx-auto">
+        <PageTitle title="Digipay || Contact" />
         <div className="mx-auto flex sm:max-w-full md:max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
           <div className="mx-auto flex sm:w-full md:max-w-1/2 flex-col justify-between gap-10">
             <div className="text-center lg:text-left">
@@ -129,7 +131,7 @@ const ContactPage = () => {
               </ul>
             </div>
           </div>
-          <div className="mx-auto flex sm:w-full md:w-1/2 flex-col gap-6 rounded-lg border p-10">
+          <div className="mx-auto flex sm:w-full md:w-1/2 flex-col gap-6 rounded-lg border p-6">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}

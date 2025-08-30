@@ -16,7 +16,6 @@ const CallToAction = () => {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             layout
-            style={{ x: 100 }}
             className="flex-1"
           >
             <h3 className="mb-3 text-2xl font-semibold md:mb-4 md:text-4xl lg:mb-6">

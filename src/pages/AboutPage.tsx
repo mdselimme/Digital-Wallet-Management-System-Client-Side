@@ -1,6 +1,7 @@
 import { Code, Cog, PenTool, Shrub } from "lucide-react";
 import TeamDetails from "./TeamDetails";
 import { motion } from "motion/react";
+import PageTitle from "@/utils/PageTitle";
 const AboutPage = () => {
   const services = [
     {
@@ -43,7 +44,8 @@ const AboutPage = () => {
 
   return (
     <div>
-      <section className="py-20">
+      <PageTitle title="Digipay || About" />
+      <section className="py-20 px-8 md:px-0">
         <div className="container mx-auto">
           <div className="mx-auto max-w-6xl space-y-12">
             <motion.div

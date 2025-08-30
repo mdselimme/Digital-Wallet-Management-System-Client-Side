@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import PageTitle from "@/utils/PageTitle";
 import { motion } from "motion/react";
 interface FaqItem {
   id: string;
@@ -60,8 +61,9 @@ const FaqPage = () => {
       whileInView={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeIn" }}
       layout
-      className="py-32"
+      className="py-32 px-10"
     >
+      <PageTitle title="Digipay || FAQ" />
       <div className="container mx-auto space-y-16">
         <div className="mx-auto flex max-w-3xl flex-col text-left md:text-center">
           <h2 className="mb-3 text-3xl font-semibold md:mb-4 lg:mb-6 lg:text-4xl">

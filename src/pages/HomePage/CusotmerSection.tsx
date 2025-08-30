@@ -34,7 +34,6 @@ const CustomerSection = () => {
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             layout
-            style={{ x: 100 }}
           >
             <img
               src={CustomerBanner}

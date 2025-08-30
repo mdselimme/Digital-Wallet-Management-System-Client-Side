@@ -1,3 +1,4 @@
+import PageTitle from "@/utils/PageTitle";
 import {
   DollarSign,
   MessagesSquare,
@@ -47,37 +48,42 @@ const FeaturePage = () => {
     },
   ];
   return (
-    <section className="py-20 px-5 md:px-0">
-      <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        layout
-        className="container mx-auto max-w-7xl"
-      >
-        <p className="mb-4 text-xs text-muted-foreground md:pl-5">
-          {subheading}
-        </p>
-        <h2 className="text-3xl font-medium md:pl-5 lg:text-4xl">{heading}</h2>
-        <div className="mx-auto mt-6 grid gap-x-20 gap-y-8 md:grid-cols-2 md:gap-y-6 lg:mt-20">
-          {features.map((feature, idx) => (
-            <div className="flex gap-6 rounded-lg md:block md:p-5" key={idx}>
-              <span className="mb-8 flex size-10 shrink-0 items-center justify-center rounded-full bg-accent md:size-12">
-                {feature.icon}
-              </span>
-              <div>
-                <h3 className="font-medium md:mb-2 md:text-xl">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-muted-foreground md:text-base">
-                  {feature.description}
-                </p>
+    <>
+      <PageTitle title="Digipay || Feature" />
+      <section className="py-20 px-8 md:px-0">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          layout
+          className="container mx-auto max-w-7xl"
+        >
+          <p className="mb-4 text-xs text-muted-foreground md:pl-5">
+            {subheading}
+          </p>
+          <h2 className="text-3xl font-medium md:pl-5 lg:text-4xl">
+            {heading}
+          </h2>
+          <div className="mx-auto mt-6 grid gap-x-20 gap-y-8 md:grid-cols-2 md:gap-y-6 lg:mt-20">
+            {features.map((feature, idx) => (
+              <div className="flex gap-6 rounded-lg md:block md:p-5" key={idx}>
+                <span className="mb-8 flex size-10 shrink-0 items-center justify-center rounded-full bg-accent md:size-12">
+                  {feature.icon}
+                </span>
+                <div>
+                  <h3 className="font-medium md:mb-2 md:text-xl">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground md:text-base">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </section>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+    </>
   );
 };
 

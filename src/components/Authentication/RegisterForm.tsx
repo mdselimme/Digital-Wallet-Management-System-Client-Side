@@ -27,6 +27,7 @@ import {
 import { toast } from "sonner";
 import { useUserRegisterMutation } from "@/redux/features/user/user.api";
 import { motion } from "motion/react";
+import PageTitle from "@/utils/PageTitle";
 const registerAccountSchema = z.object({
   name: z
     .string({ error: "Name is required." })
@@ -95,6 +96,7 @@ export function RegisterForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <PageTitle title="Digipay || Register" />
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <motion.div

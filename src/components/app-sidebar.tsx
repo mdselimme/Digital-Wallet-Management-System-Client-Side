@@ -33,6 +33,7 @@ import { agentSteps } from "@/utils/driverData/agentSteps";
 import { adminSteps } from "@/utils/driverData/adminSteps";
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import type { DriveStep } from "driver.js";
+import PageTitle from "@/utils/PageTitle";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData, isLoading: userMeLoading } = useUserGetMeQuery({});
@@ -84,6 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar {...props}>
+      <PageTitle title={`Dashboard || ${userData?.role}`} />
       <SidebarHeader>
         <div className="flex justify-between items-center">
           <Link to={"/"}>
