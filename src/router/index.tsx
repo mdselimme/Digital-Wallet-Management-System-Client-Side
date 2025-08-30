@@ -18,10 +18,13 @@ import { AdminSideBarItems } from "./AdminSideBarItems";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import { UserSideBarItems } from "./UserSideBarItems";
 import { AgentSideBarItems } from "./AgentSideBarItems";
+import Unauthorized from "@/pages/Unauthorized";
+import Notfound from "@/pages/Notfound";
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
+    errorElement: <Notfound />,
     children: [
       {
         index: true,
@@ -117,5 +120,9 @@ export const router = createBrowserRouter([
       },
       ...generateRoutes(AgentSideBarItems),
     ],
+  },
+  {
+    path: "/unauthorized",
+    Component: Unauthorized,
   },
 ]);

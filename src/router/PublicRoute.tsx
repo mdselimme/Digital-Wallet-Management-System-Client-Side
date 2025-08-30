@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import { Navigate } from "react-router";
 
@@ -6,7 +7,11 @@ interface Props {
 }
 
 const PublicOnlyRoute = ({ children }: Props) => {
-  const { data: userData } = useUserGetMeQuery({});
+  const { data: userData, isLoading } = useUserGetMeQuery({});
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (userData) {
     // redirect logged-in users based on role
