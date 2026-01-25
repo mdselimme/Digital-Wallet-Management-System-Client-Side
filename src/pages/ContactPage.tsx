@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,28 +16,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { motion } from "motion/react";
 import PageTitle from "@/utils/PageTitle";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------------- Schema ---------------- */
 const contactFormSchema = z.object({
-  name: z.string().min(3, { error: "Enter your name min 3 character length" }),
-  email: z.email({ error: "Must be a valid email." }),
+  name: z.string().min(3, { message: "Minimum 3 characters required" }),
+  email: z.string().email({ message: "Must be a valid email" }),
   phone: z
     .string()
     .length(11, { message: "Phone number must be exactly 11 digits" })
-    .regex(/^01\d{9}$/, {
-      message:
-        "Invalid Bangladeshi phone number. It must start with '01' and be exactly 11 digits long.",
-    }),
-  subject: z
-    .string()
-    .min(10, { error: "write your subject min 10 character." }),
-  message: z
-    .string()
-    .min(10, { error: "write your subject min 10 character." }),
+    .regex(/^01\d{9}$/, { message: "Invalid Bangladeshi phone number" }),
+  subject: z.string().min(10, { message: "Minimum 10 characters required" }),
+  message: z.string().min(10, { message: "Minimum 10 characters required" }),
 });
 
-const ContactPage = () => {
+export default function ContactPage() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [contactForm] = useContactEmailMutation();
 
   const form = useForm<z.infer<typeof contactFormSchema>>({
@@ -50,162 +50,186 @@ const ContactPage = () => {
     },
   });
 
-  const contactData = {
-    title: "Contact Us",
-    description:
-      "We're here to help! Whether you have questions about our mobile money transfer services, need assistance with your account, or want to share feedback, our team is always ready to listen. Reach out to us through the form below, call our support line, or visit one of our service centers. Your satisfaction and security are our top priority.",
-    phone: "+8801932772523",
-    email: "digi@pay.com",
-    label: "digipay.com",
-    url: "https://digipay.com",
-  };
+  /* ---------------- GSAP ---------------- */
+  useEffect(() => {
+    if (!sectionRef.current) return;
 
+    const ctx = gsap.context(() => {
+      gsap.from(".contact-left > *", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 40%",
+          toggleActions: "play reverse play reverse",
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.15,
+      });
+
+      gsap.from(".contact-form", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          end: "bottom 30%",
+          toggleActions: "play reverse play reverse",
+        },
+        opacity: 0,
+        x: 80,
+        duration: 0.9,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  /* ---------------- Submit ---------------- */
   const onSubmit = async (data: z.infer<typeof contactFormSchema>) => {
-    const toastId = toast.loading("Message Sending ......");
-    const messageBody = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      subject: data.subject,
-      message: data.message,
-    };
-
+    const toastId = toast.loading("Sending message...");
     try {
-      const result = await contactForm(messageBody).unwrap();
-      if (result.success) {
-        toast.success("Send Message Successfully.", { id: toastId });
+      const res = await contactForm(data).unwrap();
+      if (res.success) {
+        toast.success("Message sent successfully", { id: toastId });
         form.reset();
       }
     } catch (error: any) {
-      if (error) {
-        toast.error(error?.data?.message, { id: toastId });
-      }
+      toast.error(error?.data?.message || "Something went wrong", {
+        id: toastId,
+      });
     }
   };
 
   return (
-    <motion.section
-      initial={{ scale: 0, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      layout
-      className="py-32 px-6"
+    <section
+      ref={sectionRef}
+      className="
+        relative overflow-hidden py-24 md:py-32
+        before:absolute before:inset-0
+        before:bg-gradient-to-br
+        before:from-primary/5 before:via-background before:to-primary/10
+        before:content-['']
+      "
     >
-      <div className="container mx-auto">
-        <PageTitle title="Digipay || Contact" />
-        <div className="mx-auto flex sm:max-w-full md:max-w-7xl flex-col justify-between gap-10 lg:flex-row lg:gap-20">
-          <div className="mx-auto flex sm:w-full md:max-w-1/2 flex-col justify-between gap-10">
-            <div className="text-center lg:text-left">
-              <h1 className="mb-2 text-5xl font-semibold lg:mb-1 lg:text-6xl">
-                {contactData.title}
-              </h1>
-              <p className="text-muted-foreground p-4">
-                {contactData.description}
-              </p>
-            </div>
-            <div className="mx-auto lg:mx-0">
-              <h3 className="mb-6 text-center text-2xl font-semibold lg:text-left">
-                Contact Details
+      <PageTitle title="Digipay | Contact" />
+
+      <div className="container relative z-10 mx-auto max-w-7xl px-6">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          {/* ---------------- Left Content ---------------- */}
+          <div className="contact-left text-center lg:text-left">
+            <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+              Contact Us
+            </h1>
+
+            <p className="mb-10 max-w-xl text-muted-foreground md:text-lg lg:mx-0 mx-auto">
+              Have questions about our mobile money services or need help with
+              your account? Our team is always ready to assist you.
+            </p>
+
+            <div className="rounded-2xl border bg-background/60 p-6 backdrop-blur">
+              <h3 className="mb-4 text-xl font-semibold">
+                Contact Information
               </h3>
-              <ul className="ml-4 list-disc">
+              <ul className="space-y-2 text-muted-foreground">
                 <li>
-                  <span className="font-bold">Phone: </span>
-                  {contactData.phone}
+                  <span className="font-medium text-foreground">Phone:</span>{" "}
+                  +8801737210235
                 </li>
                 <li>
-                  <span className="font-bold">Email: </span>
-                  <a href={`mailto:${contactData.email}`} className="underline">
-                    {contactData.email}
+                  <span className="font-medium text-foreground">Email:</span>{" "}
+                  <a href="mailto:digi@pay.com" className="underline">
+                    digi@pay.com
                   </a>
                 </li>
                 <li>
-                  <span className="font-bold">Web: </span>
+                  <span className="font-medium text-foreground">Website:</span>{" "}
                   <a
-                    href={contactData.url}
+                    href="https://digipay.com"
                     target="_blank"
                     className="underline"
                   >
-                    {contactData.label}
+                    digipay.com
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="mx-auto flex sm:w-full md:w-1/2 flex-col gap-6 rounded-lg border p-6">
+
+          {/* ---------------- Form Card ---------------- */}
+          <div className="contact-form rounded-2xl border bg-background p-6 shadow-lg md:p-8">
+            <h3 className="mb-6 text-2xl font-bold tracking-tight">
+              Send Us a Message
+            </h3>
+
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-6"
               >
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your name</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="w-full"
-                          type="text"
-                          placeholder="write your name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="write your email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="john@email.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Phone</FormLabel>
+                      <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="write your number"
-                          {...field}
-                        />
+                        <Input placeholder="01XXXXXXXXX" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Subject</FormLabel>
+                      <FormLabel>Subject</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="write your subject"
-                          {...field}
-                        />
+                        <Input placeholder="How can we help?" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="message"
@@ -214,7 +238,8 @@ const ContactPage = () => {
                       <FormLabel>Message</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Write your message here"
+                          rows={5}
+                          placeholder="Write your message here..."
                           {...field}
                         />
                       </FormControl>
@@ -223,18 +248,19 @@ const ContactPage = () => {
                   )}
                 />
 
-                <div className="text-end">
-                  <Button type="submit" className="w-full">
-                    Send Message
-                  </Button>
-                </div>
+                <Button
+                  variant="default"
+                  type="submit"
+                  size="lg"
+                  className="w-full cursor-pointer"
+                >
+                  Send Message
+                </Button>
               </form>
             </Form>
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
-};
-
-export default ContactPage;
+}

@@ -1,13 +1,27 @@
 import { LoginForm } from "@/components/Authentication/LogInForm";
 
-const Login = () => {
+export default function Login() {
   return (
-    <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-5xl">
+    <main
+      className="
+        relative isolate flex min-h-screen items-center justify-center
+        bg-muted
+        px-4 py-10
+      "
+    >
+      {/* Decorative background */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute inset-0
+          bg-[radial-gradient(ellipse_at_top,theme(colors.primary/15),transparent_60%)]
+        "
+      />
+
+      {/* Login card wrapper */}
+      <div className="relative z-10 w-full max-w-5xl">
         <LoginForm />
       </div>
-    </div>
+    </main>
   );
-};
-
-export default Login;
+}
