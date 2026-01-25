@@ -1,84 +1,114 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import CustomerBanner from "../../assets/images/hero-banner.svg";
+import CustomerBanner from "@/assets/images/hero-banner.svg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
-const CustomerSection = () => {
-  const badge = "✨ Our Customer Our Family Member.";
-  const heading = "Customer Happiness Is Our first priority.";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function CustomerSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const badge = "✨ Our Customers Are Our Family";
+  const heading = "Customer Happiness Is Our First Priority";
   const description =
-    "Customers feel happy with mobile financial services because they enjoy secure, fast, and easy transactions, saving time while gaining trust and convenience.";
-  const buttons = {
-    primary: {
-      text: "Discover all components",
-      url: "https://www.shadcnblocks.com",
-    },
-    secondary: {
-      text: "View on GitHub",
-      url: "https://www.shadcnblocks.com",
-    },
-  };
-  const image = {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
-    alt: "Hero section demo image showing interface components",
-  };
+    "Customers feel happy with mobile financial services because they enjoy secure, fast, and easy transactions—saving time while gaining trust and convenience.";
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Image animation
+      gsap.from(".customer-image", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play reverse play reverse",
+        },
+        opacity: 0,
+        x: -80,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      // Text animation
+      gsap.from(".customer-text > *", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          end: "bottom 25%",
+          toggleActions: "play reverse play reverse",
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.15,
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="py-32">
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid items-center gap-8 lg:grid-cols-2">
+    <section ref={sectionRef} className="py-20 md:py-32">
+      <div className="container mx-auto max-w-7xl px-6">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          {/* ---------------- Image ---------------- */}
           <motion.div
-            className="box"
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            layout
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="customer-image flex justify-center"
           >
             <img
               src={CustomerBanner}
-              alt={image.alt}
-              className="max-w-full rounded-md object-cover"
+              alt="Happy customers using digital finance"
+              className="w-full max-w-lg rounded-2xl object-contain shadow-lg"
             />
           </motion.div>
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            layout
-            className="flex flex-col items-center text-center lg:items-start lg:text-left p-10"
-          >
-            {badge && (
-              <Badge variant="outline" className="py-3 px-10">
-                {badge}
-                <ArrowUpRight className="ml-2 size-4" />
-              </Badge>
-            )}
-            <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl leading-20">
+
+          {/* ---------------- Text Content ---------------- */}
+          <div className="customer-text flex flex-col items-center text-center lg:items-start lg:text-left">
+            <Badge
+              variant="outline"
+              className="mb-6 px-6 py-2 text-sm font-semibold"
+            >
+              {badge}
+              <ArrowUpRight className="ml-2 h-4 w-4" />
+            </Badge>
+
+            <h2 className="mb-6 max-w-xl text-pretty text-3xl font-extrabold tracking-tight md:text-4xl lg:text-5xl">
               {heading}
-            </h1>
-            <p className="text-muted-foreground mb-8 max-w-xl lg:text-xl">
+            </h2>
+
+            <p className="mb-8 max-w-xl text-muted-foreground md:text-lg">
               {description}
             </p>
-            <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
-              {buttons.secondary && (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full sm:w-auto py-5 px-5"
-                >
-                  <Link to={"/contact"}>
+
+            <div className="flex w-full flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/contact" className="flex items-center gap-2">
                     Contact Us
-                    <ArrowRight className="size-4" />
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-              )}
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default CustomerSection;
+}
