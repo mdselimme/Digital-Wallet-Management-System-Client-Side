@@ -2,6 +2,7 @@ import PageTitle from "@/utils/PageTitle";
 import CallToAction from "./CallToAction";
 import CustomerSection from "./CusotmerSection";
 import HeroSection from "./HeroSection";
+import ContactHeroSection from "./ContactHeroSection";
 
 const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage = () => {
       <PageTitle title="Digipay || Homepage" />
       <HeroSection />
       <CustomerSection />
+      <ContactHeroSection />
       <CallToAction />
     </div>
   );

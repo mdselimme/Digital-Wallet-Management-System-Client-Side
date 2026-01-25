@@ -26,7 +26,7 @@ const CustomerSection = () => {
   };
   return (
     <section className="py-32">
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-7xl">
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <motion.div
             className="box"
