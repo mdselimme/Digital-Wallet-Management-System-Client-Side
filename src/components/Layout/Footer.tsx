@@ -1,52 +1,63 @@
-import { useEffect, useRef } from "react";
 import DigiPayLogo from "@/assets/images/Logo";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+const topSectionVariants: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: "easeOut",
+      staggerChildren: 0.14,
+    },
+  },
+};
 
-gsap.registerPlugin(ScrollTrigger);
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: "easeOut",
+    },
+  },
+};
+
+const bottomVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut", delay: 0.1 },
+  },
+};
 
 export default function Footer() {
-  const footerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!footerRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from(".footer-item", {
-        scrollTrigger: {
-          trigger: footerRef.current,
-          start: "top 90%",
-          end: "bottom 40%",
-          toggleActions: "play reverse play reverse",
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.15,
-      });
-    }, footerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <footer ref={footerRef} className="border-t bg-background py-12">
+    <footer className="border-t bg-background py-12">
       <div className="container mx-auto max-w-7xl px-6">
-        {/* ---------------- Top ---------------- */}
-        <div className="grid gap-10 md:grid-cols-4">
+        {/* Top  */}
+        <motion.div
+          variants={topSectionVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.25 }}
+          className="grid gap-10 md:grid-cols-4"
+        >
           {/* Logo & tagline */}
-          <div className="footer-item md:col-span-2">
+          <motion.div variants={itemVariants} className="md:col-span-2">
             <DigiPayLogo width={110} height={50} />
             <p className="mt-4 max-w-sm text-sm font-medium text-muted-foreground">
               Do life easy with our secure and reliable digital payment system.
             </p>
-          </div>
+          </motion.div>
 
           {/* Navigation */}
-          <div className="footer-item">
+          <motion.div variants={itemVariants}>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide">
               Company
             </h3>
@@ -64,10 +75,10 @@ export default function Footer() {
                 <a href="/contact">Contact</a>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Social */}
-          <div className="footer-item">
+          <motion.div variants={itemVariants}>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide">
               Social
             </h3>
@@ -82,12 +93,18 @@ export default function Footer() {
                 <a href="#">Instagram</a>
               </li>
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* ---------------- Bottom ---------------- */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t pt-6 text-sm text-muted-foreground md:flex-row">
-          <p>© 2025 DigiPay. All rights reserved.</p>
+        {/* Bottom  */}
+        <motion.div
+          variants={bottomVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.35 }}
+          className="mt-10 flex flex-col items-center justify-between gap-4 border-t pt-6 text-sm text-muted-foreground md:flex-row"
+        >
+          <p>© {new Date().getFullYear()} DigiPay. All rights reserved.</p>
 
           <div className="flex gap-4">
             <motion.a
@@ -105,7 +122,7 @@ export default function Footer() {
               Privacy
             </motion.a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
