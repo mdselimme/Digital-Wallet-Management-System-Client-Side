@@ -16,18 +16,21 @@ import { useEffect, useState } from "react";
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import Loading from "@/components/Loading";
 import { agentSteps } from "@/utils/driverData/agentSteps";
+import useUpdateTour from "@/hooks/useTourQuery";
 const AgentDashboard = () => {
   const [paymentValue, setPaymentValue] = useState<string>("");
   const { data: userData, isLoading: userDataLoading } = useUserGetMeQuery({});
+  const handleUpdateTour = useUpdateTour();
   const paymentType = ["CASH_IN", "CASH_OUT", "BONUS", "ADD_MONEY"];
   const paymentValueChange = (data: string) => {
     setPaymentValue(data);
   };
-  useEffect(() => {
-    const steps = agentSteps;
-    checkAndStartTour(steps, userData?.email, userData?.role);
-  }, [userData.email, userData.role]);
-
+   useEffect(() => {
+      console.log(userData?.tour);
+      if (userData?.tour === false) {
+        checkAndStartTour(agentSteps, handleUpdateTour);
+      }
+    }, [userData?.tour, handleUpdateTour]);
   if (userDataLoading) {
     return <Loading />;
   }

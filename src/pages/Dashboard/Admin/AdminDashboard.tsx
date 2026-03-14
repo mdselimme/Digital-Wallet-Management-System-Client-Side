@@ -41,6 +41,7 @@ import {
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import Loading from "@/components/Loading";
 import { adminSteps } from "@/utils/driverData/adminSteps";
+import useUpdateTour from "@/hooks/useTourQuery";
 
 const userMoneySentSchema = z.object({
   receiverEmail: z.email({ error: "Must be a valid email." }),
@@ -60,6 +61,7 @@ const paymentType = ["BONUS", "ADD_MONEY"];
 
 const AdminDashboard = () => {
   const [paymentValue, setPaymentValue] = useState("");
+  const handleUpdateTour = useUpdateTour();
   const { data: userData, isLoading: userDataLoading } = useUserGetMeQuery({});
   const [superAdminTransferOther] = useSuperAdminTransferOtherMutation();
   const [open, setOpen] = useState(false);
@@ -100,11 +102,13 @@ const AdminDashboard = () => {
     setPaymentValue(data);
   };
 
+  //driver update 
   useEffect(() => {
-    const steps = adminSteps;
-    checkAndStartTour(steps, userData?.email, userData?.role);
-  }, [userData.email, userData.role]);
-
+     console.log(userData?.tour);
+     if (userData?.tour === false) {
+       checkAndStartTour(adminSteps, handleUpdateTour);
+     }
+   }, [userData?.tour, handleUpdateTour]);
   if (userDataLoading) {
     return <Loading />;
   }

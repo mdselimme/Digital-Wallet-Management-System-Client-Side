@@ -28,6 +28,15 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["user"]
         }),
+        //user tour update
+        userTourUpdate: builder.mutation({
+            query: (body) => ({
+                url: `/user/tour`,
+                method: "PATCH",
+                data: { tour: body.tour }
+            }),
+            invalidatesTags: ["user-me"]
+        }),
         // user update status
         userUpdateStatus: builder.mutation({
             query: (body) => ({
@@ -51,7 +60,7 @@ const userApi = baseApi.injectEndpoints({
             query: () => ({
                 url: "/user/me"
             }),
-            providesTags: ["user"],
+            providesTags: ["user-me"],
             transformResponse: (response) => response.data
         }),
         //get all users
@@ -83,4 +92,5 @@ export const {
     useUserUpdateRoleMutation,
     useGetSingleUserQuery,
     useUserGetMeQuery,
+    useUserTourUpdateMutation
 } = userApi;
