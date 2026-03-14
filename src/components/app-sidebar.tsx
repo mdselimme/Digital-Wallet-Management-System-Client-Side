@@ -32,13 +32,14 @@ import { adminSteps } from "@/utils/driverData/adminSteps";
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import type { DriveStep } from "driver.js";
 import PageTitle from "@/utils/PageTitle";
+import useUpdateTour from "@/hooks/useTourQuery";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData, isLoading: userMeLoading } = useUserGetMeQuery({});
   const [userLogOut] = useAuthLogOutUserMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
+const handleUpdateTour = useUpdateTour();
   const handleLogOutUser = async () => {
     try {
       const result = await userLogOut({}).unwrap();
@@ -78,7 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (userData?.role === "Super_Admin") {
       steps = adminSteps;
     }
-    checkAndStartTour(steps, userData?.email, userData?.role);
+    checkAndStartTour(steps, handleUpdateTour);
   };
 
   return (

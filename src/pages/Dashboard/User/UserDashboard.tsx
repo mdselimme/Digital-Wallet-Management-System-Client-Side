@@ -41,26 +41,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import Password from "@/components/ui/password";
 import Loading from "@/components/Loading";
 import TableComponents from "../TableComponents";
 import SendMoneyUser from "./SendMoneyUser";
-
 import { toast } from "sonner";
-
 import { useUserGetMeQuery } from "@/redux/features/user/user.api";
 import { useUserCashOutAgentMutation } from "@/redux/features/transaction/transaction.api";
-
 import { checkAndStartTour } from "@/utils/ShowDriver";
 import { userSteps } from "@/utils/driverData/userSteps";
-
 import "driver.js/dist/driver.css";
+import useUpdateTour from "@/hooks/useTourQuery";
 
-/* ---------------------- Schema ---------------------- */
+//user send money schema
 const userMoneySentSchema = z.object({
   receiverEmail: z.email({ error: "Invalid email address" }),
   senderPassword: z
@@ -70,14 +65,19 @@ const userMoneySentSchema = z.object({
   amount: z.coerce.number().min(1, "Amount must be greater than 0"),
 });
 
-/* ---------------------- Component ---------------------- */
+//user dashboard component
 const UserDashboard = () => {
+  //state
   const [paymentValue, setPaymentValue] = useState("");
   const [open, setOpen] = useState(false);
+  const handleUpdateTour = useUpdateTour();
 
+  //user data
   const { data: userData, isLoading } = useUserGetMeQuery({});
+
   const [cashOutMoneyAgent] = useUserCashOutAgentMutation();
 
+  //user cash out form
   const form = useForm<z.infer<typeof userMoneySentSchema>>({
     resolver: zodResolver(userMoneySentSchema) as any,
     defaultValues: {
@@ -87,6 +87,7 @@ const UserDashboard = () => {
     },
   });
 
+  //payment type
   const paymentType = [
     "CASH_IN",
     "SEND_MONEY",
@@ -96,11 +97,12 @@ const UserDashboard = () => {
   ];
 
   useEffect(() => {
-    if (userData?.email && userData?.role) {
-      checkAndStartTour(userSteps, userData.email, userData.role);
+    if (userData?.tour === false || userData?.tour === undefined) {
+      checkAndStartTour(userSteps, handleUpdateTour);
     }
-  }, [userData]);
+  }, [userData?.tour, handleUpdateTour]);
 
+  //user cash out form submit
   const cashOutFormSubmit = async (
     data: z.infer<typeof userMoneySentSchema>
   ) => {
